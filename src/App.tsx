@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent, Fragment } from "react";
 import { motion } from "motion/react";
 import {
   Delete,
@@ -611,11 +611,13 @@ function Dashboard({
   onMenuClick,
   LogoComponent,
   onPaymentClick,
+  categories,
 }: {
   onTabChange: (tab: string) => void;
   onMenuClick: () => void;
   LogoComponent: any;
   onPaymentClick: () => void;
+  categories: any[];
 }) {
   const [showBalance, setShowBalance] = useState(true);
 
@@ -629,9 +631,9 @@ function Dashboard({
         className="flex items-center justify-between px-5 py-3 mt-1"
         id="dash-header"
       >
-        <Menu className="w-7 h-7 text-[#1a5fb4]" onClick={onMenuClick} />
+        <Menu className="w-7 h-7 text-[#1a5fb4] cursor-pointer" onClick={onMenuClick} />
         <div className="flex items-center gap-1" id="dash-logo">
-          <LogoComponent className="w-20 h-8" />
+          <LogoComponent className="w-32 h-12" />
         </div>
         <div className="flex items-center gap-4" id="dash-actions">
           <MessageSquare className="w-6 h-6 text-[#1a5fb4]" />
@@ -675,7 +677,7 @@ function Dashboard({
           </div>
           <div className="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full blur-2xl -mr-12 -mt-12" />
         </div>
-        <div className="bg-white rounded-xl flex-1 flex items-center justify-center shadow-sm border border-gray-100">
+        <div className="bg-white rounded-xl flex-1 flex items-center justify-center shadow-sm border border-gray-100 p-4">
           <Grid className="w-7 h-7 text-[#007bff]" />
         </div>
       </div>
@@ -690,12 +692,12 @@ function Dashboard({
           className="flex-shrink-0 flex flex-col items-center gap-1.5 w-24 cursor-pointer active:opacity-70 transition-opacity"
           onClick={onPaymentClick}
         >
-          <div className="bg-white rounded-2xl p-2 w-20 h-20 flex flex-col items-center justify-center shadow-sm relative border border-gray-100">
-            <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mb-1">
-              <LogoComponent className="w-7 h-4" />
+          <div className="bg-white rounded-2xl p-2 w-[74px] h-[72px] flex flex-col items-center justify-center shadow-sm relative border border-gray-100">
+            <div className="w-11 h-11 rounded-full bg-blue-50 flex items-center justify-center mb-1 overflow-hidden border border-blue-100 shadow-inner">
+              <LogoComponent className="w-9 h-6 object-contain scale-125" />
             </div>
-            <span className="text-[8px] text-center font-bold text-gray-700 leading-tight px-1">
-              DC (по номеру телефона)
+            <span className="text-[6.8px] text-center font-bold text-gray-700 leading-[1.1] px-0.5">
+              DC (по номеру<br />карты)
             </span>
           </div>
         </div>
@@ -744,52 +746,47 @@ function Dashboard({
 
       {/* Categories */}
       <div className="px-5 mb-2" id="categories-bar">
-        <div className="bg-white rounded-2xl p-1.5 flex items-center justify-between shadow-sm border border-gray-100">
-          <div className="flex flex-col items-center flex-1">
-            <div className="w-8 h-8 bg-green-500 rounded-xl flex items-center justify-center text-white mb-1">
-              <Zap className="w-4 h-4 fill-white" />
-            </div>
-            <span className="font-bold text-[9px] text-gray-800">Neru</span>
-          </div>
-          <div className="h-5 w-px bg-gray-100 mx-1" />
-          <div className="flex flex-col items-center flex-1">
-            <div className="w-8 h-8 bg-blue-500 rounded-xl flex items-center justify-center text-white relative mb-1">
-              <Car className="w-4 h-4" />
-              <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full border border-white" />
-            </div>
-            <span className="font-bold text-[9px] text-gray-800">Parking</span>
-          </div>
-          <div className="h-5 w-px bg-gray-100 mx-1" />
-          <div className="flex flex-col items-center flex-1">
-            <div className="w-8 h-8 bg-orange-500 rounded-xl flex items-center justify-center text-white mb-1">
-              <Bird className="w-4 h-4" />
-            </div>
-            <span className="font-bold text-[9px] text-gray-800">Шохин</span>
-          </div>
+        <div className="bg-white rounded-2xl p-2.5 flex items-center justify-between shadow-sm border border-gray-100">
+          {categories.map((cat, index) => (
+            <Fragment key={cat.id}>
+              <div className="flex-1 flex items-center justify-center gap-2">
+                <div className={`w-7 h-7 ${cat.color} rounded-full flex items-center justify-center text-white relative`}>
+                  <cat.icon className="w-3.5 h-3.5" />
+                  {cat.badge && (
+                    <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full border border-white" />
+                  )}
+                </div>
+                <span className="font-bold text-[9px] text-gray-800">{cat.name}</span>
+              </div>
+              {index < categories.length - 1 && (
+                <div className="h-4 w-px bg-gray-600 flex-shrink-0" />
+              )}
+            </Fragment>
+          ))}
         </div>
       </div>
 
       {/* Grid of services */}
       <div className="px-5 grid grid-cols-1 gap-2 mb-2" id="services-grid">
         <div className="flex gap-2">
-          <div className="bg-white rounded-2xl p-5 flex-1 shadow-sm border border-gray-100 flex flex-col justify-between relative overflow-hidden h-36">
+          <div className="bg-white rounded-2xl p-3 flex-[1.5] shadow-sm border border-gray-100 flex flex-col justify-between relative overflow-hidden h-26">
             <div>
-              <h4 className="text-lg font-bold text-gray-800 mb-1 leading-tight">
+              <h4 className="text-sm font-bold text-gray-800 mb-0.5 leading-tight">
                 Оплата услуг
               </h4>
               <p className="text-[10px] text-gray-500 leading-tight">
                 Мобильная связь,{"\n"}Интернет,{"\n"}Коммунальные услуги
               </p>
             </div>
-            <div className="absolute right-0 bottom-0 w-20 h-20 bg-blue-100/50 rounded-tl-full opacity-50" />
+            <div className="absolute right-0 bottom-0 w-16 h-16 bg-blue-100/50 rounded-tl-full opacity-50" />
           </div>
-          <div className="bg-white rounded-2xl p-5 flex-1 shadow-sm border border-gray-100 flex flex-col justify-between h-36 overflow-hidden">
-            <h4 className="text-lg font-bold text-gray-800 leading-tight">
+          <div className="bg-white rounded-2xl p-3 flex-[0.5] shadow-sm border border-gray-100 flex flex-col justify-between h-26 overflow-hidden">
+            <h4 className="text-sm font-bold text-gray-800 leading-tight">
               Карты
             </h4>
-            <div className="bg-yellow-400 w-full h-16 rounded-xl relative overflow-hidden p-3 shadow-sm">
-              <div className="w-8 h-1 bg-yellow-200/40 rounded-full absolute bottom-3 left-3" />
-              <div className="w-3 h-1 bg-yellow-200/40 rounded-full absolute bottom-3 left-12" />
+            <div className="bg-yellow-400 w-full h-10 rounded-lg relative overflow-hidden p-2 shadow-sm">
+              <div className="w-8 h-1 bg-yellow-200/40 rounded-full absolute bottom-2 left-2" />
+              <div className="w-3 h-1 bg-yellow-200/40 rounded-full absolute bottom-2 left-10" />
             </div>
           </div>
         </div>
@@ -812,8 +809,26 @@ function Dashboard({
   );
 }
 
+// --- SplashScreen Component ---
+function SplashScreen({ LogoComponent }: { LogoComponent: any }) {
+  return (
+    <motion.div
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      className="fixed inset-0 bg-white z-[200] flex items-center justify-center select-none"
+      id="splash-screen"
+    >
+      <div className="w-96 h-64 flex items-center justify-center">
+        <LogoComponent className="w-full h-full" />
+      </div>
+    </motion.div>
+  );
+}
+
 // --- PIN Entrance Component ---
 export default function App() {
+  const [showSplash, setShowSplash] = useState(true);
   const [pin, setPin] = useState<number[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeTab, setActiveTab] = useState<Page>("home");
@@ -822,6 +837,20 @@ export default function App() {
     localStorage.getItem("custom_logo"),
   );
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [categories, setCategories] = useState([
+    { id: 'neru', name: 'Neru', color: 'bg-green-500', icon: Zap },
+    { id: 'parking', name: 'Parking', color: 'bg-blue-500', icon: Car, badge: true },
+    { id: 'shohin', name: 'Шохин', color: 'bg-orange-500', icon: Bird },
+  ]);
+
+  const cycleCategories = () => {
+    setCategories(prev => {
+      const next = [...prev];
+      const last = next.pop();
+      if (last) next.unshift(last);
+      return next;
+    });
+  };
   const [transactions, setTransactions] = useState([
     { number: "992987434381", amount: "10.50", time: "17:16:05" },
     { number: "992931300488", amount: "2.50", time: "17:08:09" },
@@ -829,6 +858,13 @@ export default function App() {
     { number: "992900778777", amount: "2.50", time: "08:31:39" },
     { number: "992939631818", amount: "6.00", time: "08:25:21" },
   ]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const addTransaction = (tx: any) => {
     setTransactions((prev) => [tx, ...prev]);
@@ -916,6 +952,10 @@ export default function App() {
 
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
+  if (showSplash) {
+    return <SplashScreen LogoComponent={LogoComponent} />;
+  }
+
   if (isLoggedIn) {
     if (selectedTransaction) {
       return (
@@ -978,6 +1018,28 @@ export default function App() {
                 <span className="font-bold text-[#1a5fb4] text-lg">Лого</span>
               </label>
             </div>
+
+            {/* Category update buttons */}
+            <div className="grid grid-cols-1 gap-3 pt-6 border-t border-gray-100">
+              <h3 className="text-gray-400 font-bold text-xs uppercase px-2 mb-2">Обновить категории</h3>
+              
+              <div 
+                className="flex items-center justify-between p-4 bg-blue-50 rounded-2xl cursor-pointer active:scale-95 transition-transform"
+                onClick={cycleCategories}
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white">
+                    <Car className="w-6 h-6" />
+                  </div>
+                  <span className="font-bold text-blue-700">Parking</span>
+                </div>
+                <div className="flex flex-col gap-0.5">
+                  <Plus className="w-4 h-4 text-blue-600" />
+                  <Plus className="w-4 h-4 text-blue-600" />
+                  <Plus className="w-4 h-4 text-blue-600" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -987,6 +1049,7 @@ export default function App() {
             onMenuClick={() => setIsSidebarOpen(true)}
             LogoComponent={LogoComponent}
             onPaymentClick={() => setActiveTab("payment")}
+            categories={categories}
           />
         ) : (
           <HistoryScreen
@@ -1065,16 +1128,21 @@ export default function App() {
 
   return (
     <div
-      className="min-h-screen bg-[#f2f7fb] flex flex-col items-center justify-between py-20 px-6 select-none overflow-y-auto font-sans"
+      className="min-h-screen bg-[#f2f7fb] flex flex-col items-center justify-center select-none overflow-hidden font-sans"
       id="pin-screen"
     >
-      {/* Header / Logo */}
+      <motion.div
+        initial={{ scale: 0.8 }}
+        animate={{ scale: 0.8 }}
+        className="flex flex-col items-center justify-between h-full py-20 px-6 w-full max-w-sm"
+      >
+        {/* Header / Logo */}
       <div
         className="flex flex-col items-center mt-4 w-full"
         id="header-section"
       >
         <div className="flex items-center gap-2 mb-16" id="logo-container">
-          <div className="relative w-20 h-12" id="logo-icon">
+          <div className="relative w-36 h-20" id="logo-icon">
             <LogoComponent className="w-full h-full drop-shadow-sm" />
           </div>
         </div>
@@ -1091,7 +1159,7 @@ export default function App() {
         className="flex items-center justify-center gap-6 mb-10 relative w-full max-w-[240px]"
         id="pin-display-section"
       >
-        <div className="flex gap-1.5" id="pin-dots">
+        <div className="flex gap-5" id="pin-dots">
           {[...Array(maxPinLength)].map((_, i) => (
             <div
               key={i}
@@ -1117,7 +1185,7 @@ export default function App() {
 
       {/* Keypad */}
       <div
-        className="grid grid-cols-3 gap-y-12 gap-x-10 max-w-[240px] w-full mb-16"
+        className="grid grid-cols-3 gap-y-12 gap-x-12 max-w-[260px] w-full mb-16"
         id="keypad"
       >
         {numbers.map((num) => (
@@ -1161,6 +1229,7 @@ export default function App() {
       </div>
 
       <div className="h-2" />
+      </motion.div>
     </div>
   );
 }
