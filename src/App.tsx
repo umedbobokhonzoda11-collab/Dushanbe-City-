@@ -66,12 +66,12 @@ function TransactionDetail({
       <div className="w-20 h-1 bg-gray-300 rounded-full mx-auto mb-6" />
 
       {/* Header Info */}
-      <div className="flex justify-between items-start mb-6 px-2">
+      <div className="flex justify-between items-start mb-1 px-2">
         <div className="w-52 mt-2">
           <LogoComponent className="w-full h-auto" />
         </div>
         <div
-          className="text-right text-[22px] font-normal text-[#1a1a1a] leading-[1.2] mt-1 pr-1"
+          className="text-right text-[22px] font-normal text-[#1a1a1a]/70 leading-[1.2] mt-1 pr-1"
         >
           ЗАО "Душанбе Сити Банк"
           <br />
@@ -83,7 +83,7 @@ function TransactionDetail({
         </div>
       </div>
 
-      <div className="h-[2px] bg-gray-300 w-full mb-6" />
+      <div className="h-[2px] bg-gray-400 w-full mb-6" />
 
       {/* Details List */}
       <div className="flex flex-col gap-4 mb-6 px-2">
@@ -99,11 +99,11 @@ function TransactionDetail({
           { label: "Статус:", value: "Успешный" },
         ].map((item, idx) => (
           <div key={idx} className="flex justify-between items-start">
-            <span className="text-[25px] font-normal text-[#1a1a1a] flex-1">
+            <span className="text-[25px] font-normal text-black flex-1">
               {item.label}
             </span>
             {item.value && (
-              <span className="text-[25px] font-normal text-[#1a1a1a] text-right flex-1">
+              <span className="text-[25px] font-normal text-black text-right flex-1">
                 {item.value}
               </span>
             )}
@@ -111,28 +111,28 @@ function TransactionDetail({
         ))}
       </div>
 
-      <div className="h-[2px] bg-gray-300 w-full mb-8" />
+      <div className="h-[2px] bg-gray-400 w-full mb-2" />
 
       {/* Operation Successful Box - Styled as a sharp-cornered stamp */}
-      <div className="flex justify-center mb-10">
+      <div className="flex justify-center mb-2 -mt-4">
         <div 
-          className="border-[3px] border-[#3eb6f0] px-10 py-1 flex flex-col items-center"
-          style={{ transform: "scale(0.85)" }}
+          className="border-[3px] border-[#0081ff] px-10 py-1 flex flex-col items-center opacity-70"
+          style={{ transform: "scale(0.75)" }}
         >
-          <span className="text-[#3eb6f0] text-sm font-bold uppercase tracking-tight text-center">
+          <span className="text-[#0081ff] text-sm font-bold uppercase tracking-tight text-center">
             ЗАО «Душанбе Сити Банк»
           </span>
-          <span className="text-[#3eb6f0] text-[40px] font-bold uppercase text-center leading-[1] mt-0.5 mb-1.5 font-sans tracking-tight">
+          <span className="text-[#0081ff] text-[40px] font-bold uppercase text-center leading-[1] mt-0.5 mb-1.5 font-sans tracking-tight">
             ОПЕРАЦИЯ
           </span>
-          <span className="text-[#3eb6f0] text-[40px] font-bold uppercase text-center leading-[1] mb-1 font-sans tracking-tight">
+          <span className="text-[#0081ff] text-[40px] font-bold uppercase text-center leading-[1] mb-1 font-sans tracking-tight">
             ВЫПОЛНЕНА
           </span>
         </div>
       </div>
 
       {/* Action Icons */}
-      <div className="grid grid-cols-4 gap-2 mb-10">
+      <div className="grid grid-cols-4 gap-2 mb-4">
         {[
           {
             icon: (
@@ -174,7 +174,7 @@ function TransactionDetail({
             <div className="flex items-center justify-center cursor-pointer active:opacity-70 transition-opacity">
               {action.icon}
             </div>
-            <span className="text-base font-normal text-[#1a1a1a] text-center leading-tight">
+            <span className="text-base font-normal text-black text-center leading-tight">
               {action.label}
             </span>
           </div>
@@ -182,7 +182,7 @@ function TransactionDetail({
       </div>
 
       {/* Back Button */}
-      <div className="mt-auto pb-4">
+      <div className="mt-2 pb-4">
         <motion.button
           whileTap={{ scale: 0.98 }}
           onClick={onBack}
@@ -283,15 +283,16 @@ function HistoryScreen({
                   </span>
                 </div>
                 <div className="flex flex-col items-end">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-[#323d51] text-[20px] font-bold leading-none font-sans">
+                  <div className="h-[14px]" /> {/* Spacer for 9762... line */}
+                  <div className="flex items-center gap-2 mb-1.5 h-[19px]">
+                    <span className="text-[#323d51] text-[20px] font-bold leading-none font-sans opacity-90">
                       {tx.amount}
                     </span>
-                    <div className="w-[22px] h-[22px] border-2 border-[#5acb9a] rounded-full flex items-center justify-center">
-                      <Check className="w-3.5 h-3.5 text-[#5acb9a]" strokeWidth={3} />
+                    <div className="w-[18px] h-[18px] border-2 border-[#5acb9a] rounded-full flex items-center justify-center">
+                      <Check className="w-3 h-3 text-[#5acb9a]" strokeWidth={3} />
                     </div>
                   </div>
-                  <span className="text-[#323d51] text-[18px] font-bold font-sans">
+                  <span className="text-[#323d51] text-[18px] font-bold font-sans leading-normal h-[24px] flex items-center opacity-90">
                     {tx.time}
                   </span>
                 </div>
@@ -574,31 +575,31 @@ function PaymentPage({
               <div className="w-full space-y-4 py-2 text-sm">
                 <div className="flex justify-between items-start gap-4">
                   <span className="text-gray-400 font-medium">Поставщик:</span>
-                  <span className="text-gray-800 font-bold text-right flex-1">
+                  <span className="text-black font-normal text-right flex-1">
                     DC (по номеру телефона)
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-400 font-medium">Получатель:</span>
-                  <span className="text-gray-800 font-bold">{phoneNumber}</span>
+                  <span className="text-black font-normal">{phoneNumber}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-400 font-medium">
                     К зачислению:
                   </span>
-                  <span className="text-gray-800 font-bold">{amount}</span>
+                  <span className="text-black font-normal">{amount}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-400 font-medium">Комиссия:</span>
-                  <span className="text-gray-800 font-bold">0.00</span>
+                  <span className="text-black font-normal">0.00</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-400 font-medium">Дата:</span>
-                  <span className="text-gray-800 font-bold">{currentDate}</span>
+                  <span className="text-black font-normal">{currentDate}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-400 font-medium">Время:</span>
-                  <span className="text-gray-800 font-bold">{currentTime}</span>
+                  <span className="text-black font-normal">{currentTime}</span>
                 </div>
               </div>
 
