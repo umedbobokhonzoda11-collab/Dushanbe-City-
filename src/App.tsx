@@ -17,10 +17,12 @@ import {
   Grid,
   X,
   Zap,
+  Flame,
   Car,
   Bird,
   Home,
   ArrowRightLeft,
+  ArrowRight,
   LayoutGrid,
   History,
   Scan,
@@ -31,6 +33,9 @@ import {
   ChevronLeft,
   Contact2,
   Check,
+  Clock,
+  Briefcase,
+  Wallet,
 } from "lucide-react";
 
 // --- Types ---
@@ -51,23 +56,22 @@ function TransactionDetail({
       className="min-h-screen bg-white flex flex-col font-sans select-none overflow-x-hidden p-8"
       id="transaction-detail"
       style={{
-        transform: "scale(0.7)",
+        transform: "scale(0.55)",
         transformOrigin: "top center",
-        width: "142.86%",
-        minHeight: "142.86vh",
-        marginLeft: "-21.43%",
+        width: "181.82%",
+        minHeight: "181.82vh",
+        marginLeft: "-40.91%",
       }}
     >
       <div className="w-20 h-1 bg-gray-300 rounded-full mx-auto mb-6" />
 
       {/* Header Info */}
-      <div className="flex justify-between items-start mb-8">
-        <div className="w-56">
+      <div className="flex justify-between items-start mb-6 px-2">
+        <div className="w-52 mt-2">
           <LogoComponent className="w-full h-auto" />
         </div>
         <div
-          className="text-right text-xl font-bold text-gray-800 leading-[1.3] mt-2"
-          style={{ transform: "scale(0.8)", transformOrigin: "top right" }}
+          className="text-right text-[22px] font-normal text-[#1a1a1a] leading-[1.2] mt-1 pr-1"
         >
           ЗАО "Душанбе Сити Банк"
           <br />
@@ -79,15 +83,15 @@ function TransactionDetail({
         </div>
       </div>
 
-      <div className="h-0.5 bg-gray-200 w-full mb-4" />
+      <div className="h-[2px] bg-gray-300 w-full mb-6" />
 
       {/* Details List */}
-      <div className="flex flex-col gap-1.5 mb-4">
+      <div className="flex flex-col gap-4 mb-6 px-2">
         {[
-          { label: "Дата операции:", value: "25.04.2026" },
+          { label: "Дата операции:", value: "26.04.2026" },
           { label: "Время операции:", value: transaction.time },
-          { label: "Номер операции:", value: "1651030404" },
-          { label: "Поставщик:", value: "DC (по номеру телефона)" },
+          { label: "Номер операции:", value: "1652765434" },
+          { label: "Поставщик: DC (по номеру телефона)", value: "" },
           { label: "Счет отправителя:", value: "9762***9372" },
           { label: "Счет получателя:", value: transaction.number },
           { label: "Сумма операции:", value: transaction.amount },
@@ -95,69 +99,82 @@ function TransactionDetail({
           { label: "Статус:", value: "Успешный" },
         ].map((item, idx) => (
           <div key={idx} className="flex justify-between items-start">
-            <span className="text-xl font-bold text-gray-400 flex-1">
+            <span className="text-[25px] font-normal text-[#1a1a1a] flex-1">
               {item.label}
             </span>
-            <span className="text-xl font-black text-gray-500 text-right flex-1">
-              {item.value}
-            </span>
+            {item.value && (
+              <span className="text-[25px] font-normal text-[#1a1a1a] text-right flex-1">
+                {item.value}
+              </span>
+            )}
           </div>
         ))}
       </div>
 
-      <div className="h-0.5 bg-gray-200 w-full mb-4" />
+      <div className="h-[2px] bg-gray-300 w-full mb-8" />
 
       {/* Operation Successful Box - Styled as a sharp-cornered stamp */}
-      <div className="flex justify-center mb-6">
-        <div className="border-4 border-blue-200 px-1 py-4 rounded-none flex flex-col items-center">
-          <span className="text-blue-300 text-xs font-bold uppercase tracking-widest text-center">
+      <div className="flex justify-center mb-10">
+        <div 
+          className="border-[3px] border-[#3eb6f0] px-10 py-1 flex flex-col items-center"
+          style={{ transform: "scale(0.85)" }}
+        >
+          <span className="text-[#3eb6f0] text-sm font-bold uppercase tracking-tight text-center">
             ЗАО «Душанбе Сити Банк»
           </span>
-          <span className="text-blue-400 text-xl font-black uppercase text-center mt-1 tracking-tight">
-            Операция выполнена
+          <span className="text-[#3eb6f0] text-[40px] font-bold uppercase text-center leading-[1] mt-0.5 mb-1.5 font-sans tracking-tight">
+            ОПЕРАЦИЯ
+          </span>
+          <span className="text-[#3eb6f0] text-[40px] font-bold uppercase text-center leading-[1] mb-1 font-sans tracking-tight">
+            ВЫПОЛНЕНА
           </span>
         </div>
       </div>
 
       {/* Action Icons */}
-      <div className="grid grid-cols-4 gap-4 mb-8 px-4">
+      <div className="grid grid-cols-4 gap-2 mb-10">
         {[
           {
             icon: (
-              <MessageSquare
-                className="w-12 h-12 text-[#1a5fb4]"
-                strokeWidth={2.5}
-              />
+              <svg viewBox="0 0 24 24" className="w-14 h-14 text-[#007bff]" fill="none" stroke="currentColor" strokeWidth={2.5}>
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <circle cx="16" cy="18" r="3" />
+                <path d="M16 15v6" />
+                <path d="M13 18h6" />
+              </svg>
             ),
             label: "Поделиться",
           },
           {
             icon: (
-              <Download
-                className="w-12 h-12 text-[#1a5fb4]"
-                strokeWidth={2.5}
-              />
+              <svg viewBox="0 0 24 24" className="w-14 h-14 text-[#007bff]" fill="none" stroke="currentColor" strokeWidth={2.5}>
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <path d="M12 18v-6" />
+                <path d="m9 15 3 3 3-3" />
+              </svg>
             ),
             label: "Сохранить",
           },
           {
             icon: (
-              <Star className="w-12 h-12 text-[#1a5fb4]" strokeWidth={2.5} />
+              <Star className="w-14 h-14 text-[#007bff]" strokeWidth={2} />
             ),
             label: "В избранные",
           },
           {
             icon: (
-              <Repeat className="w-12 h-12 text-[#1a5fb4]" strokeWidth={2.5} />
+              <Repeat className="w-14 h-14 text-[#007bff]" strokeWidth={2.5} />
             ),
             label: "Повторить",
           },
         ].map((action, i) => (
-          <div key={i} className="flex flex-col items-center gap-4">
-            <div className="w-24 h-24 bg-white rounded-3xl flex items-center justify-center shadow-lg border border-gray-100 active:bg-gray-50">
+          <div key={i} className="flex flex-col items-center gap-3">
+            <div className="flex items-center justify-center cursor-pointer active:opacity-70 transition-opacity">
               {action.icon}
             </div>
-            <span className="text-lg font-bold text-gray-500 text-center leading-tight">
+            <span className="text-base font-normal text-[#1a1a1a] text-center leading-tight">
               {action.label}
             </span>
           </div>
@@ -165,11 +182,11 @@ function TransactionDetail({
       </div>
 
       {/* Back Button */}
-      <div className="mt-auto pt-10">
+      <div className="mt-auto pb-4">
         <motion.button
           whileTap={{ scale: 0.98 }}
           onClick={onBack}
-          className="w-full bg-[#f07e26] text-white py-8 rounded-[2rem] text-4xl font-black shadow-xl"
+          className="w-full bg-[#f07e26] text-white py-6 rounded-[20px] text-[44px] font-medium shadow-none active:bg-orange-600 transition-colors"
         >
           Назад
         </motion.button>
@@ -202,32 +219,32 @@ function HistoryScreen({
     >
       {/* Tabs */}
       <div
-        className="bg-white pt-10 flex border-b border-gray-100"
+        className="bg-white flex border-b border-gray-100"
         id="history-tabs"
       >
-        <div className="flex-1 flex flex-col items-center py-6 relative">
-          <span className="text-2xl font-bold text-gray-800 tracking-tight">
+        <div className="flex-1 flex flex-col items-center py-3 relative">
+          <span className="text-xl font-medium text-gray-800 tracking-tight">
             Операции
           </span>
-          <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-[#007bff]" />
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#007bff]" />
         </div>
-        <div className="flex-1 flex flex-col items-center py-6">
-          <span className="text-2xl font-bold text-gray-400 tracking-tight">
+        <div className="flex-1 flex flex-col items-center py-3">
+          <span className="text-xl font-medium text-gray-400 tracking-tight">
             Выписка
           </span>
         </div>
       </div>
 
-      {/* Updated Status */}
+      {/* Update Status */}
       <div
-        className="flex items-center justify-center gap-3 py-8 text-gray-400 text-sm font-bold"
+        className="flex items-center justify-center gap-2 py-4 text-gray-400 text-sm font-medium"
         id="update-status"
       >
-        <span>Обновлено: 25.04.26 - 18:08</span>
-        <div className="w-7 h-7 rounded-full border-2 border-[#007bff] flex items-center justify-center shadow-sm">
+        <span className="tracking-tight">Обновлено: 27.04.26 - 06:08</span>
+        <div className="w-6 h-6 rounded-full border-2 border-[#007bff] flex items-center justify-center">
           <svg
             viewBox="0 0 24 24"
-            className="w-4 h-4 text-[#007bff] fill-none stroke-current"
+            className="w-3.5 h-3.5 text-[#007bff] fill-none stroke-current"
             strokeWidth={4}
           >
             <path d="M20 6L9 17L4 12" />
@@ -236,57 +253,51 @@ function HistoryScreen({
       </div>
 
       {/* Date Header */}
-      <div className="px-6 mb-6">
-        <h3 className="text-center text-xl font-black text-[#1a1a1a]">
-          Сегодня
+      <div className="px-6 mb-4">
+        <h3 className="text-center text-[19px] font-bold text-[#1a1a1a]">
+          Вчера
         </h3>
       </div>
 
       {/* Transaction List Container */}
-      <div className="px-5" id="transaction-list">
-        <div className="bg-white rounded-[2.5rem] p-1 shadow-md border border-gray-100">
-          <div className="bg-[#f0f7ff] rounded-[2.3rem] overflow-hidden divide-y divide-gray-100">
-            {transactions.map((tx, i) => (
-              <div
-                key={i}
-                className="px-8 py-7 flex flex-col gap-1 active:bg-[#e6f0ff] transition-colors cursor-pointer"
-                onClick={() => onTransactionSelection(tx)}
-              >
-                <div className="flex justify-between items-start">
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-gray-400 text-base font-medium">
-                      9762***9372
+      <div className="px-4" id="transaction-list">
+        <div className="bg-[#f2f7ff] rounded-[1.5rem] p-1 shadow-sm">
+          {transactions.map((tx, i) => (
+            <div
+              key={i}
+              className={`px-5 py-5 flex flex-col gap-1 active:bg-[#e6f0ff] transition-colors cursor-pointer ${
+                i !== transactions.length - 1 ? "border-b border-gray-100/30" : ""
+              }`}
+              onClick={() => onTransactionSelection(tx)}
+            >
+              <div className="flex justify-between items-start">
+                <div className="flex flex-col gap-1">
+                  <span className="text-[#969ba5] text-[14px] font-normal leading-none font-sans">
+                    9762***9372
+                  </span>
+                  <span className="text-[#323d51] text-[19px] font-bold leading-tight font-sans">
+                    {tx.number}
+                  </span>
+                  <span className="text-[#969ba5] text-[16px] font-normal leading-normal font-sans">
+                    DC (по номеру телефона)
+                  </span>
+                </div>
+                <div className="flex flex-col items-end">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-[#323d51] text-[20px] font-bold leading-none font-sans">
+                      {tx.amount}
                     </span>
-                    <span className="text-2xl font-black text-gray-600 tracking-[0.01em] origin-left scale-[0.7] inline-block">
-                      {tx.number}
-                    </span>
-                    <span className="text-gray-400 text-lg font-medium">
-                      DC (по номеру телефона)
-                    </span>
-                  </div>
-                  <div className="flex flex-col items-end gap-1.5">
-                    <div className="flex items-center gap-2">
-                      <span className="text-2xl font-black text-gray-700 tracking-[0.01em] origin-right scale-[0.9] inline-block">
-                        {tx.amount}
-                      </span>
-                      <div className="w-6 h-6 border-2 border-[#56d0a0] rounded-full flex items-center justify-center text-[#56d0a0]">
-                        <svg
-                          viewBox="0 0 24 24"
-                          className="w-3.5 h-3.5 fill-none stroke-current"
-                          strokeWidth={4}
-                        >
-                          <path d="M20 6L9 17L4 12" />
-                        </svg>
-                      </div>
+                    <div className="w-[22px] h-[22px] border-2 border-[#5acb9a] rounded-full flex items-center justify-center">
+                      <Check className="w-3.5 h-3.5 text-[#5acb9a]" strokeWidth={3} />
                     </div>
-                    <span className="text-gray-400 font-bold text-lg">
-                      {tx.time}
-                    </span>
                   </div>
+                  <span className="text-[#323d51] text-[18px] font-bold font-sans">
+                    {tx.time}
+                  </span>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -396,7 +407,7 @@ function PaymentPage({
         {/* Card Selection Horizontal Scroll */}
         <div className="flex gap-2 overflow-x-auto no-scrollbar py-1">
           {/* Card 1 */}
-          <div className="flex-shrink-0 w-24 h-20 bg-[#007bff] rounded-xl p-2.5 text-white shadow-md flex flex-col justify-between">
+          <div className="flex-shrink-0 w-24 h-20 bg-[#007bff] rounded-lg p-2.5 text-white shadow-md flex flex-col justify-between">
             <span className="text-[8px] font-bold opacity-80">DBC****9372</span>
             <span className="text-xs font-bold truncate transform scale-y-[0.85] origin-bottom inline-block">
               5703.43 TJS
@@ -404,7 +415,7 @@ function PaymentPage({
           </div>
 
           {/* Card 2 */}
-          <div className="flex-shrink-0 w-24 h-20 bg-gradient-to-br from-blue-300 to-orange-200 rounded-xl p-2.5 text-white shadow-md relative overflow-hidden flex flex-col justify-between">
+          <div className="flex-shrink-0 w-24 h-20 bg-gradient-to-br from-blue-300 to-orange-200 rounded-lg p-2.5 text-white shadow-md relative overflow-hidden flex flex-col justify-between">
             <div className="flex justify-between items-start">
               <span className="text-[8px] font-bold">КРЕДИТ</span>
               <div className="bg-red-600 text-white text-[6px] font-bold px-1 py-0.5 rounded-xs">
@@ -416,7 +427,7 @@ function PaymentPage({
           </div>
 
           {/* Card 3 */}
-          <div className="flex-shrink-0 w-24 h-20 bg-white rounded-xl p-2.5 shadow-sm border border-gray-100 flex flex-col justify-between items-start">
+          <div className="flex-shrink-0 w-24 h-20 bg-white rounded-lg p-2.5 shadow-sm border border-gray-100 flex flex-col justify-between items-start">
             <span className="text-[7px] font-bold text-gray-400">
               BAB****....
             </span>
@@ -623,185 +634,223 @@ function Dashboard({
 
   return (
     <div
-      className="min-h-screen bg-[#f2f7fb] flex flex-col font-sans select-none overflow-x-hidden pb-36"
+      className="min-h-screen bg-[#f2f7fb] flex flex-col font-sans select-none overflow-x-hidden pb-40"
       id="dashboard"
     >
       {/* Header */}
       <header
-        className="flex items-center justify-between px-5 py-3 mt-1"
+        className="flex items-center justify-between px-5 pt-3 pb-1"
         id="dash-header"
       >
-        <Menu className="w-7 h-7 text-[#1a5fb4] cursor-pointer" onClick={onMenuClick} />
-        <div className="flex items-center gap-1" id="dash-logo">
-          <LogoComponent className="w-32 h-12" />
+        <button 
+          className="flex flex-col gap-1 cursor-pointer p-1" 
+          onClick={onMenuClick}
+        >
+          <div className="w-5 h-0.5 bg-[#0081ff] rounded-full" />
+          <div className="w-5 h-0.5 bg-[#0081ff] rounded-full" />
+          <div className="w-5 h-0.5 bg-[#0081ff] rounded-full" />
+        </button>
+        <div className="flex items-center" id="dash-logo">
+          <LogoComponent className="w-[60px] h-[22px]" />
         </div>
-        <div className="flex items-center gap-4" id="dash-actions">
-          <MessageSquare className="w-6 h-6 text-[#1a5fb4]" />
-          <Bell className="w-6 h-6 text-[#1a5fb4]" />
+        <div className="flex items-center gap-3" id="dash-actions">
+          <div className="p-1">
+            <MessageSquare className="w-5 h-5 text-[#0081ff]" strokeWidth={2} />
+          </div>
+          <div className="p-1">
+            <Bell className="w-5 h-5 text-[#0081ff]" strokeWidth={2} />
+          </div>
         </div>
       </header>
 
-      {/* Search Bar */}
-      <div className="px-5 mb-2" id="search-container">
-        <div className="bg-white rounded-xl flex items-center px-4 py-2 shadow-sm border border-gray-50">
-          <Search className="w-4 h-4 text-gray-400 mr-2" />
-          <input
-            type="text"
-            placeholder="Поиск"
-            className="flex-1 bg-transparent outline-none text-gray-700 font-medium text-sm"
-          />
+      {/* Main Content Wrapper */}
+      <div className="mt-2">
+        {/* Search Bar */}
+        <div className="px-5 mb-3" id="search-container">
+          <div className="bg-white rounded-xl flex items-center px-4 py-2 shadow-sm border border-gray-100">
+            <Search className="w-4 h-4 text-gray-500 mr-2" strokeWidth={2.5} />
+            <input
+              type="text"
+              placeholder="Поиск"
+              className="flex-1 bg-transparent outline-none text-[#1a1a1a] font-medium text-sm placeholder:text-gray-400"
+            />
+          </div>
         </div>
-      </div>
 
-      {/* Balance Section */}
-      <div className="px-5 flex gap-2 mb-2" id="balance-section">
-        <div className="bg-[#007bff] rounded-2xl py-4 px-6 flex-[4] text-white shadow-md relative overflow-hidden">
-          <div className="relative z-10">
-            <div className="flex items-center gap-2 mb-0.5">
-              <span className="text-3xl font-bold tracking-tighter inline-block transform scale-y-[0.85] origin-bottom px-0.5">
-                {showBalance ? "5703.43" : "••••••"}
-              </span>
-              <span className="text-base font-bold opacity-80 mt-1">TJS</span>
-              <div className="flex gap-3 ml-auto">
-                <button onClick={() => setShowBalance(!showBalance)}>
-                  <Eye
-                    className={`w-5 h-5 ${showBalance ? "opacity-100" : "opacity-50"}`}
-                  />
-                </button>
-                <RefreshCw className="w-5 h-5 opacity-100" />
+        {/* Balance & Grid Card Row */}
+        <div className="px-5 flex gap-2 mb-3" id="balance-section">
+          {/* Balance Card */}
+          <div className="bg-[#0081ff] rounded-[20px] p-4 pb-3 flex-[5] text-white shadow-md relative overflow-hidden">
+            <div className="relative z-10">
+              <div className="flex items-center gap-1.5 mb-2">
+                <span className="text-[28px] font-bold leading-none tracking-tight">
+                  {showBalance ? "113.44" : "••••••"}
+                </span>
+                <span className="text-xs font-bold opacity-100 mt-2">TJS</span>
+                <div className="flex gap-2.5 ml-auto items-center">
+                  <button onClick={() => setShowBalance(!showBalance)} className="p-0.5">
+                    <Eye
+                      className={`w-5 h-5 ${showBalance ? "opacity-100" : "opacity-60"}`}
+                      strokeWidth={2}
+                    />
+                  </button>
+                  <button className="p-0.5">
+                    <RefreshCw className="w-4 h-4 opacity-100" strokeWidth={3} />
+                  </button>
+                </div>
+              </div>
+              <div className="text-white/60 text-[10px] font-medium tracking-tight">
+                26.04.26 - 18:26:28
               </div>
             </div>
-            <div className="text-blue-100/70 text-[10px] font-medium">
-              25.04.26 - 17:16:05
-            </div>
           </div>
-          <div className="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full blur-2xl -mr-12 -mt-12" />
+          {/* Small Grid Button */}
+          <div className="bg-white rounded-[18px] flex-[1.2] flex items-center justify-center shadow-sm border border-gray-50">
+            <Grid className="w-6 h-6 text-[#007bff]" strokeWidth={2.5} />
+          </div>
         </div>
-        <div className="bg-white rounded-xl flex-1 flex items-center justify-center shadow-sm border border-gray-100 p-4">
-          <Grid className="w-7 h-7 text-[#007bff]" />
-        </div>
-      </div>
 
-      {/* Quick Actions Scroll */}
-      <div
-        className="flex overflow-x-auto px-5 gap-3 mb-2 no-scrollbar pb-1"
-        id="quick-actions"
-      >
-        {/* Action 1 */}
-        <div
-          className="flex-shrink-0 flex flex-col items-center gap-1.5 w-24 cursor-pointer active:opacity-70 transition-opacity"
-          onClick={onPaymentClick}
-        >
-          <div className="bg-white rounded-2xl p-2 w-[74px] h-[72px] flex flex-col items-center justify-center shadow-sm relative border border-gray-100">
-            <div className="w-11 h-11 rounded-full bg-blue-50 flex items-center justify-center mb-1 overflow-hidden border border-blue-100 shadow-inner">
-              <LogoComponent className="w-9 h-6 object-contain scale-125" />
+        {/* DC (by phone number) Card */}
+        <div className="px-5 mb-4">
+          <div 
+            className="bg-white rounded-2xl p-2.5 w-20 h-24 flex flex-col items-center justify-center shadow-sm border border-gray-100 cursor-pointer active:scale-95 transition-transform"
+            onClick={onPaymentClick}
+          >
+            <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mb-2">
+              <div className="w-6 h-4 relative">
+                <LogoComponent className="w-full h-full object-contain" />
+              </div>
             </div>
-            <span className="text-[6.8px] text-center font-bold text-gray-700 leading-[1.1] px-0.5">
-              DC (по номеру<br />карты)
+            <span className="text-[10px] text-center font-bold text-gray-700 leading-tight">
+              DC (по номеру телефона)
             </span>
           </div>
         </div>
-      </div>
 
-      {/* Banners */}
-      <div className="mb-2 overflow-hidden h-[116px]">
-        <div
-          className="flex overflow-x-auto px-5 gap-3 no-scrollbar origin-top-left scale-[0.8] w-[125%]"
-          id="banners"
-        >
-          <div className="flex-shrink-0 w-72 h-36 bg-[#4b2ba2] rounded-2xl p-5 text-white relative overflow-hidden flex flex-col justify-center">
-            <div className="relative z-10 w-full">
-              <h3 className="text-lg font-bold uppercase leading-tight mb-1">
-                Переводы без комиссии из Уралсиба
+        {/* Banners */}
+        <div className="mb-4 overflow-hidden">
+          <div
+            className="flex overflow-x-auto px-5 gap-3 no-scrollbar"
+            id="banners"
+          >
+            {/* Purple Banner */}
+            <div className="flex-shrink-0 w-[240px] h-[120px] bg-[#4b2ba2] rounded-[24px] p-4 text-white relative overflow-hidden flex flex-col justify-start">
+              <h3 className="text-sm font-black uppercase leading-tight mb-2 max-w-[140px] tracking-tight">
+                ПЕРЕВОДЫ БЕЗ КОМИССИИ ИЗ УРАЛСИБА
               </h3>
-              <div className="flex gap-2">
-                <div className="w-6 h-4 rounded-xs overflow-hidden flex flex-col border border-white/20">
+              <div className="flex gap-2 mb-2">
+                <div className="w-6 h-4 bg-white rounded-[1px] overflow-hidden flex flex-col">
                   <div className="h-1/3 bg-white" />
                   <div className="h-1/3 bg-blue-600" />
                   <div className="h-1/3 bg-red-600" />
                 </div>
-                <div className="w-6 h-4 rounded-xs overflow-hidden flex flex-col border border-white/20">
+                <div className="w-6 h-4 bg-white rounded-[1px] overflow-hidden flex flex-col">
                   <div className="h-1/3 bg-red-600" />
                   <div className="h-1/3 bg-white" />
                   <div className="h-1/3 bg-green-600" />
                 </div>
               </div>
-            </div>
-            <div className="absolute right-0 bottom-0 w-28 h-32 bg-white/5 rounded-tl-full" />
-            <div className="absolute right-3 bottom-3 w-20 h-24 bg-orange-400 rounded-2xl flex items-center justify-center font-bold text-3xl shadow-md">
-              0%
-            </div>
-          </div>
-          <div className="flex-shrink-0 w-72 h-36 bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-5 border border-green-200 relative overflow-hidden">
-            <h3 className="text-lg font-bold text-gray-800 uppercase leading-tight mb-3">
-              Соҳиби хона бо ипотека шавед
-            </h3>
-            <div className="bg-green-500/80 text-white px-4 py-1.5 rounded-full inline-block text-[10px] font-bold shadow-sm uppercase">
-              ipoteka.dc.tj
-            </div>
-            <div className="absolute right-0 bottom-0 w-32 h-full bg-[url('https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&q=80&w=200')] bg-cover opacity-10" />
-          </div>
-        </div>
-      </div>
-
-      {/* Categories */}
-      <div className="px-5 mb-2" id="categories-bar">
-        <div className="bg-white rounded-2xl p-2.5 flex items-center justify-between shadow-sm border border-gray-100">
-          {categories.map((cat, index) => (
-            <Fragment key={cat.id}>
-              <div className="flex-1 flex items-center justify-center gap-2">
-                <div className={`w-7 h-7 ${cat.color} rounded-full flex items-center justify-center text-white relative`}>
-                  <cat.icon className="w-3.5 h-3.5" />
-                  {cat.badge && (
-                    <div className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-red-500 rounded-full border border-white" />
-                  )}
-                </div>
-                <span className="font-bold text-[9px] text-gray-800">{cat.name}</span>
+              <div className="absolute right-[-5%] bottom-[-5%] w-24 h-24 bg-white/5 rounded-full" />
+              <div className="absolute right-3 top-3 w-16 h-20 bg-orange-400 rounded-[18px] flex items-center justify-center font-black text-3xl shadow-lg z-10">
+                0%
               </div>
-              {index < categories.length - 1 && (
-                <div className="h-4 w-px bg-gray-600 flex-shrink-0" />
-              )}
-            </Fragment>
-          ))}
-        </div>
-      </div>
+            </div>
 
-      {/* Grid of services */}
-      <div className="px-5 grid grid-cols-1 gap-2 mb-2" id="services-grid">
-        <div className="flex gap-2">
-          <div className="bg-white rounded-2xl p-3 flex-[1.5] shadow-sm border border-gray-100 flex flex-col justify-between relative overflow-hidden h-26">
-            <div>
-              <h4 className="text-sm font-bold text-gray-800 mb-0.5 leading-tight">
-                Оплата услуг
+            {/* Green Banner */}
+            <div className="flex-shrink-0 w-[240px] h-[120px] bg-gradient-to-br from-green-50 to-green-100 rounded-[24px] p-4 border border-green-200 relative overflow-hidden">
+              <h3 className="text-sm font-black text-gray-800 uppercase leading-tight mb-2 max-w-[150px] tracking-tight">
+                СОҲИБИ ХОНА БО ИПОТЕКА ШАВЕД
+              </h3>
+              <div className="bg-green-500 text-white px-3 py-1 rounded-full inline-block text-[9px] font-bold uppercase shadow-sm">
+                ipoteka.dc.tj
+              </div>
+              <div className="absolute right-0 bottom-0 w-24 h-full bg-[url('https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&q=80&w=200')] bg-cover opacity-20" />
+            </div>
+          </div>
+        </div>
+
+        {/* Categories Bar */}
+        <div className="px-5 mb-4" id="categories-bar">
+          <div className="bg-white rounded-[20px] p-3 flex items-center justify-between shadow-sm border border-gray-50">
+            <div className="flex-1 flex items-center justify-center gap-2">
+              <div className="w-10 h-10 bg-[#38b000] rounded-full flex items-center justify-center text-white shadow-md">
+                <Zap className="w-5 h-5 fill-current" />
+              </div>
+              <span className="font-bold text-sm text-gray-800">Neru</span>
+            </div>
+            <div className="h-6 w-px bg-gray-200" />
+            <div className="flex-1 flex items-center justify-center gap-2">
+              <div className="w-10 h-10 bg-[#0081ff] rounded-full flex items-center justify-center text-white relative shadow-md">
+                <Car className="w-5 h-5" />
+                <div className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-red-500 rounded-full border border-white" />
+              </div>
+              <span className="font-bold text-sm text-gray-800">Parking</span>
+            </div>
+            <div className="h-6 w-px bg-gray-200" />
+            <div className="flex-1 flex items-center justify-center gap-2">
+              <div className="w-10 h-10 bg-[#f85e00] rounded-full flex items-center justify-center text-white shadow-md">
+                <Bird className="w-5 h-5" />
+              </div>
+              <span className="font-bold text-sm text-gray-800">Шохин</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Services Grid */}
+        <div className="px-5 space-y-3 pb-8" id="services-grid">
+          {/* Row 1 */}
+          <div className="grid grid-cols-3 gap-3">
+            <div className="col-span-2 bg-white rounded-[24px] p-4 shadow-sm border border-gray-50 flex justify-between items-start relative h-32 cursor-pointer active:scale-95 transition-transform overflow-hidden">
+              <div className="z-10">
+                <h4 className="text-lg font-black text-gray-900 mb-1 leading-tight">
+                  Оплата услуг
+                </h4>
+                <p className="text-[10px] text-gray-400 font-bold leading-relaxed max-w-[100px]">
+                  Мобильная связь, Интернет, Коммунальные услуги
+                </p>
+              </div>
+              <div className="w-14 h-14 bg-[#e0f1ff] rounded-[18px] flex items-center justify-center relative shadow-inner mt-2">
+                 <div className="w-10 h-8 bg-[#0091ff] rounded-lg relative overflow-hidden shadow-sm">
+                   <div className="absolute top-1 left-2 right-2 h-1 bg-white/20 rounded-full" />
+                 </div>
+              </div>
+            </div>
+            <div className="bg-white rounded-[24px] p-4 shadow-sm border border-gray-50 flex flex-col justify-between items-start h-32 cursor-pointer active:scale-95 transition-transform">
+              <h4 className="text-lg font-black text-gray-900 leading-tight">
+                Карты
               </h4>
-              <p className="text-[10px] text-gray-500 leading-tight">
-                Мобильная связь,{"\n"}Интернет,{"\n"}Коммунальные услуги
-              </p>
-            </div>
-            <div className="absolute right-0 bottom-0 w-16 h-16 bg-blue-100/50 rounded-tl-full opacity-50" />
-          </div>
-          <div className="bg-white rounded-2xl p-3 flex-[0.5] shadow-sm border border-gray-100 flex flex-col justify-between h-26 overflow-hidden">
-            <h4 className="text-sm font-bold text-gray-800 leading-tight">
-              Карты
-            </h4>
-            <div className="bg-yellow-400 w-full h-10 rounded-lg relative overflow-hidden p-2 shadow-sm">
-              <div className="w-8 h-1 bg-yellow-200/40 rounded-full absolute bottom-2 left-2" />
-              <div className="w-3 h-1 bg-yellow-200/40 rounded-full absolute bottom-2 left-10" />
+              <div className="w-12 h-8 bg-[#ffcc00] rounded-lg mt-auto relative shadow-sm">
+                 <div className="absolute bottom-1.5 left-2 right-2 h-1 bg-black/10 rounded-full" />
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="flex gap-2 h-20">
-          <div className="bg-white rounded-xl p-3 flex-[1] shadow-sm border border-gray-100 flex items-center justify-center">
-            <h4 className="text-xs font-bold text-gray-800">Кредиты</h4>
-          </div>
-          <div className="bg-white rounded-xl p-3 flex-[1] shadow-sm border border-gray-100 flex items-center justify-center">
-            <h4 className="text-xs font-bold text-gray-800">Депозиты</h4>
-          </div>
-          <div className="bg-white rounded-xl p-3 flex-[1] shadow-sm border border-gray-100 flex items-center justify-center">
-            <h4 className="text-xs font-bold text-gray-800 leading-tight text-center">
-              Курс валют
-            </h4>
+          {/* Row 2 */}
+          <div className="grid grid-cols-3 gap-3">
+            <div className="bg-white rounded-[24px] p-4 shadow-sm border border-gray-50 flex flex-col h-32 cursor-pointer active:scale-95 transition-transform">
+              <h4 className="text-md font-black text-gray-900 mb-2">Кредиты</h4>
+              <div className="mx-auto mt-auto mb-1 w-14 h-12 bg-[#ffeff4] rounded-[18px] flex items-center justify-center relative">
+                 <div className="w-10 h-10 bg-[#ff4d88] rounded-xl flex items-center justify-center shadow-sm">
+                   <Check className="w-5 h-5 text-white" strokeWidth={4} />
+                 </div>
+              </div>
+            </div>
+            <div className="bg-white rounded-[24px] p-4 shadow-sm border border-gray-50 flex flex-col h-32 cursor-pointer active:scale-95 transition-transform">
+              <h4 className="text-md font-black text-gray-900 mb-2">Депозиты</h4>
+              <div className="mx-auto mt-auto mb-1 w-14 h-12 bg-[#eefaf4] rounded-[18px] flex items-center justify-center">
+                 <div className="w-10 h-10 bg-[#2abe76] rounded-xl flex items-center justify-center shadow-sm">
+                   <Plus className="w-5 h-5 text-white" strokeWidth={4} />
+                 </div>
+              </div>
+            </div>
+            <div className="bg-white rounded-[24px] p-4 shadow-sm border border-gray-50 flex flex-col h-32 cursor-pointer active:scale-95 transition-transform">
+              <h4 className="text-sm font-black text-gray-900 leading-tight mb-2">Курс<br/>валют</h4>
+              <div className="mx-auto mt-auto mb-1 w-14 h-12 bg-[#edf4ff] rounded-[18px] flex items-center justify-center">
+                 <div className="w-10 h-10 bg-[#0081ff] rounded-full flex items-center justify-center shadow-sm">
+                   <RefreshCw className="w-5 h-5 text-white" strokeWidth={3} />
+                 </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -819,7 +868,7 @@ function SplashScreen({ LogoComponent }: { LogoComponent: any }) {
       className="fixed inset-0 bg-white z-[200] flex items-center justify-center select-none"
       id="splash-screen"
     >
-      <div className="w-96 h-64 flex items-center justify-center">
+      <div className="w-[105.6px] h-[70.4px] flex items-center justify-center">
         <LogoComponent className="w-full h-full" />
       </div>
     </motion.div>
@@ -852,11 +901,8 @@ export default function App() {
     });
   };
   const [transactions, setTransactions] = useState([
-    { number: "992987434381", amount: "10.50", time: "17:16:05" },
-    { number: "992931300488", amount: "2.50", time: "17:08:09" },
-    { number: "992880183218", amount: "20.00", time: "12:40:17" },
-    { number: "992900778777", amount: "2.50", time: "08:31:39" },
-    { number: "992939631818", amount: "6.00", time: "08:25:21" },
+    { number: "992918120194", amount: "20.00", time: "12:26:46" },
+    { number: "992918179708", amount: "2.50", time: "08:52:48" },
   ]);
 
   useEffect(() => {
@@ -1064,58 +1110,78 @@ export default function App() {
 
           {/* Bottom Navigation */}
           <nav
-            className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-xl border-t border-gray-100/50 px-5 py-2.5 flex items-center justify-between z-40 rounded-t-[2.2rem] shadow-[0_-10px_30px_-10px_rgba(0,0,0,0.1)]"
+            className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-2 flex items-center justify-between z-40 rounded-t-[24px] shadow-[0_-8px_24px_rgba(0,0,0,0.06)]"
             id="bottom-nav"
           >
+            {/* Главная */}
             <div
-              className={`flex flex-col items-center gap-0.5 transition-all duration-300 ${activeTab === "home" ? "" : "opacity-40"}`}
+              className="flex flex-col items-center gap-1 cursor-pointer"
               onClick={() => setActiveTab("home")}
             >
               <div
-                className={`${activeTab === "home" ? "bg-blue-50 p-1.5 rounded-lg" : ""}`}
+                className={`w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-300 ${activeTab === "home" ? "bg-blue-50" : "bg-transparent"}`}
               >
                 <Home
-                  className={`w-5.5 h-5.5 ${activeTab === "home" ? "text-[#007bff] fill-[#007bff]/10" : "text-gray-800"}`}
+                  className={`w-6 h-6 ${activeTab === "home" ? "text-blue-500" : "text-gray-300"}`}
+                  strokeWidth={activeTab === "home" ? 2.5 : 2}
+                  fill={activeTab === "home" ? "currentColor" : "none"}
+                  fillOpacity={0.1}
                 />
               </div>
               <span
-                className={`text-[9px] font-bold ${activeTab === "home" ? "text-[#007bff]" : "text-gray-800"}`}
+                className={`text-[10px] font-bold ${activeTab === "home" ? "text-blue-500" : "text-gray-400"}`}
               >
                 Главная
               </span>
             </div>
 
-            <div className="flex flex-col items-center gap-0.5 opacity-40">
-              <ArrowRightLeft className="w-5.5 h-5.5 text-gray-800" />
-              <span className="text-[9px] font-bold text-gray-800">
+            {/* Переводы */}
+            <div className="flex flex-col items-center gap-1 cursor-pointer">
+              <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-transparent">
+                <ArrowRightLeft className="w-6 h-6 text-gray-300" strokeWidth={2.5} />
+              </div>
+              <span className="text-[10px] font-bold text-gray-400">
                 Переводы
               </span>
             </div>
 
-            <div className="relative -mt-12 bg-[#007bff] w-16 h-16 rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(0,123,255,0.4)] border-[6px] border-[#f2f7fb]">
-              <Scan className="w-6 h-6 text-white" strokeWidth={3} />
+            {/* Large Floating Center Button */}
+            <div className="relative -mt-10">
+               <div className="absolute inset-0 bg-blue-500/10 blur-lg rounded-full transform scale-125" />
+               <div className="bg-[#0081ff] w-14 h-14 rounded-full flex items-center justify-center shadow-[0_10px_20px_rgba(0,129,255,0.3)] border-[4px] border-white active:scale-90 transition-transform relative z-10">
+                 <div className="w-7 h-7 border-2 border-white rounded-md flex items-center justify-center relative">
+                   <div className="w-3 h-3 bg-white/20 rounded-[2px]" />
+                 </div>
+               </div>
             </div>
 
-            <div className="flex flex-col items-center gap-0.5 opacity-40">
-              <LayoutGrid className="w-5.5 h-5.5 text-gray-800" />
-              <span className="text-[9px] font-bold text-gray-800">
+            {/* Сервисы */}
+            <div className="flex flex-col items-center gap-1 cursor-pointer">
+              <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-transparent">
+                <LayoutGrid className="w-6 h-6 text-gray-300" strokeWidth={2} />
+              </div>
+              <span className="text-[10px] font-bold text-gray-400">
                 Сервисы
               </span>
             </div>
 
+            {/* История */}
             <div
-              className={`flex flex-col items-center gap-0.5 transition-all duration-300 cursor-pointer ${activeTab === "history" ? "" : "opacity-40"}`}
+              className="flex flex-col items-center gap-1 cursor-pointer"
               onClick={() => setActiveTab("history")}
             >
               <div
-                className={`${activeTab === "history" ? "bg-blue-50 p-1.5 rounded-lg" : ""}`}
+                className={`w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-300 ${activeTab === "history" ? "bg-blue-50" : "bg-transparent"}`}
               >
-                <History
-                  className={`w-5.5 h-5.5 ${activeTab === "history" ? "text-[#007bff] fill-[#007bff]/10" : "text-gray-800"}`}
-                />
+                <div className={`${activeTab === "history" ? "" : "w-6 h-6 bg-gray-50 rounded-full flex items-center justify-center"}`}>
+                  <Clock
+                    className={`w-5 h-5 ${activeTab === "history" ? "text-blue-500" : "text-gray-400"}`}
+                    strokeWidth={2.5}
+                  />
+                </div>
               </div>
               <span
-                className={`text-[9px] font-bold ${activeTab === "history" ? "text-[#007bff]" : "text-gray-800"}`}
+                className={`text-[10px] font-bold ${activeTab === "history" ? "text-blue-500" : "text-gray-400"}`}
               >
                 История
               </span>
@@ -1142,7 +1208,7 @@ export default function App() {
         id="header-section"
       >
         <div className="flex items-center gap-2 mb-16" id="logo-container">
-          <div className="relative w-36 h-20" id="logo-icon">
+          <div className="relative w-48 h-28" id="logo-icon">
             <LogoComponent className="w-full h-full drop-shadow-sm" />
           </div>
         </div>
@@ -1163,7 +1229,7 @@ export default function App() {
           {[...Array(maxPinLength)].map((_, i) => (
             <div
               key={i}
-              className={`w-[13.2px] h-[13.2px] rounded-full border-2 transition-all duration-200 ${
+              className={`w-[13.2px] h-[13.2px] rounded-sm border-2 transition-all duration-200 ${
                 i < pin.length
                   ? "bg-[#f07e26] border-[#f07e26]"
                   : "bg-transparent border-[#f07e26]"
