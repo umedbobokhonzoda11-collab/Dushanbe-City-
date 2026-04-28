@@ -1511,6 +1511,9 @@ export default function App() {
 
       <div className="h-2" />
       </motion.div>
+      {/* Simulation of black mobile navigation bar */}
+      <div className="h-[env(safe-area-inset-bottom,40px)] bg-black w-full fixed bottom-0 left-0 right-0 z-[9999]" />
+      <div className="h-[env(safe-area-inset-bottom,40px)] w-full" />
     </div>
   );
 }
