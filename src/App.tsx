@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, ChangeEvent, Fragment } from "react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import {
   Delete,
   Fingerprint,
@@ -241,10 +241,10 @@ function HistoryScreen({
         id="update-status"
       >
         <span className="tracking-tight">Обновлено: 27.04.26 - 06:08</span>
-        <div className="w-6 h-6 rounded-full border-2 border-[#007bff] flex items-center justify-center">
+        <div className="w-[18px] h-[18px] rounded-full border-2 border-[#007bff] flex items-center justify-center">
           <svg
             viewBox="0 0 24 24"
-            className="w-3.5 h-3.5 text-[#007bff] fill-none stroke-current"
+            className="w-3 h-3 text-[#007bff] fill-none stroke-current"
             strokeWidth={4}
           >
             <path d="M20 6L9 17L4 12" />
@@ -255,13 +255,13 @@ function HistoryScreen({
       {/* Date Header */}
       <div className="px-6 mb-4">
         <h3 className="text-center text-[19px] font-bold text-[#1a1a1a]">
-          Вчера
+          Сегодня
         </h3>
       </div>
 
       {/* Transaction List Container */}
       <div className="px-4" id="transaction-list">
-        <div className="bg-[#f2f7ff] rounded-[1.5rem] p-1 shadow-sm">
+        <div className="bg-[#f2f7ff] rounded-[1.5rem] p-1">
           {transactions.map((tx, i) => (
             <div
               key={i}
@@ -317,32 +317,32 @@ function PaymentPage({
 }) {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState("979450770");
-  const [amount, setAmount] = useState("1.00");
+  const [checkmarkGreen, setCheckmarkGreen] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [amount, setAmount] = useState("");
+  const [paymentDate, setPaymentDate] = useState("");
+  const [paymentTime, setPaymentTime] = useState("");
 
-  const currentDate = new Date()
-    .toLocaleDateString("ru-RU", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "2-digit",
-    })
-    .replace(/\//g, ".");
-
-  const currentTime = new Date().toLocaleTimeString("ru-RU", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
+  useEffect(() => {
+    if (showSuccess) {
+      const timer = setTimeout(() => {
+        setCheckmarkGreen(true);
+      }, 2000);
+      return () => clearTimeout(timer);
+    } else {
+      setCheckmarkGreen(false);
+    }
+  }, [showSuccess]);
 
   return (
     <div className="min-h-screen bg-[#f2f7fb] font-sans select-none overflow-x-hidden flex flex-col relative">
       {/* Header */}
-      <header className="bg-[#007bff] px-4 py-3 flex items-center justify-between text-white shadow-md">
+      <header className="bg-[#007bff] px-4 py-3 flex items-center justify-between text-white">
         <div className="flex items-center gap-4">
           <button onClick={onBack} className="p-1">
             <ChevronLeft className="w-7 h-7" />
           </button>
-          <h1 className="text-lg font-bold">DC (по номеру телефона)</h1>
+          <h1 className="text-base font-bold">DC (по номеру телефона)</h1>
         </div>
         <button className="p-1">
           <Star className="w-6 h-6" />
@@ -352,11 +352,13 @@ function PaymentPage({
       {/* Form Content */}
       <div className="p-4 flex-1 space-y-3">
         {/* Phone Input */}
-        <div className="bg-white rounded-2xl p-3 shadow-sm border border-gray-100 flex items-center gap-3">
+        <div className="bg-white rounded-2xl p-3 border border-gray-100 flex items-center gap-3">
           <input
             type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
             value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, ""))}
             placeholder="Номер телефона получате..."
             className="flex-1 bg-transparent border-none outline-none text-gray-800 font-medium placeholder:text-gray-400"
           />
@@ -369,22 +371,28 @@ function PaymentPage({
         </div>
 
         {/* Action Button */}
-        <div className="bg-blue-600/10 rounded-2xl p-3 shadow-sm border border-blue-100 flex items-center justify-center">
+        <div className="bg-blue-600/10 rounded-2xl p-3 border border-blue-100 flex items-center justify-center">
           <span className="text-blue-600 font-bold text-sm">
             Проверить номер/счет
           </span>
         </div>
 
         {/* Amount Input */}
-        <div className="bg-white rounded-2xl p-3 shadow-sm border border-gray-100">
+        <div className="bg-white rounded-2xl p-3 border border-gray-100">
           <div className="flex items-center gap-2">
             <span className="text-gray-400 font-bold uppercase text-xs">
               TJS
             </span>
             <input
               type="text"
+              inputMode="decimal"
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => {
+                const val = e.target.value.replace(/[^0-9.]/g, "");
+                if ((val.match(/\./g) || []).length <= 1) {
+                  setAmount(val);
+                }
+              }}
               placeholder="Сумма"
               className="flex-1 bg-transparent border-none outline-none text-base font-bold text-gray-800 placeholder:text-gray-400"
             />
@@ -392,7 +400,7 @@ function PaymentPage({
         </div>
 
         {/* Comment Input */}
-        <div className="bg-white rounded-2xl p-3 shadow-sm border border-gray-100 flex items-start">
+        <div className="bg-white rounded-2xl p-3 border border-gray-100 flex items-start">
           <input
             type="text"
             placeholder="Комментарий"
@@ -408,7 +416,7 @@ function PaymentPage({
         {/* Card Selection Horizontal Scroll */}
         <div className="flex gap-2 overflow-x-auto no-scrollbar py-1">
           {/* Card 1 */}
-          <div className="flex-shrink-0 w-24 h-20 bg-[#007bff] rounded-lg p-2.5 text-white shadow-md flex flex-col justify-between">
+          <div className="flex-shrink-0 w-24 h-20 bg-[#007bff] rounded-lg p-2.5 text-white flex flex-col justify-between">
             <span className="text-[8px] font-bold opacity-80">DBC****9372</span>
             <span className="text-xs font-bold truncate transform scale-y-[0.85] origin-bottom inline-block">
               5703.43 TJS
@@ -416,7 +424,7 @@ function PaymentPage({
           </div>
 
           {/* Card 2 */}
-          <div className="flex-shrink-0 w-24 h-20 bg-gradient-to-br from-blue-300 to-orange-200 rounded-lg p-2.5 text-white shadow-md relative overflow-hidden flex flex-col justify-between">
+          <div className="flex-shrink-0 w-24 h-20 bg-gradient-to-br from-blue-300 to-orange-200 rounded-lg p-2.5 text-white relative overflow-hidden flex flex-col justify-between">
             <div className="flex justify-between items-start">
               <span className="text-[8px] font-bold">КРЕДИТ</span>
               <div className="bg-red-600 text-white text-[6px] font-bold px-1 py-0.5 rounded-xs">
@@ -428,7 +436,7 @@ function PaymentPage({
           </div>
 
           {/* Card 3 */}
-          <div className="flex-shrink-0 w-24 h-20 bg-white rounded-lg p-2.5 shadow-sm border border-gray-100 flex flex-col justify-between items-start">
+          <div className="flex-shrink-0 w-24 h-20 bg-white rounded-lg p-2.5 border border-gray-100 flex flex-col justify-between items-start">
             <span className="text-[7px] font-bold text-gray-400">
               BAB****....
             </span>
@@ -453,26 +461,32 @@ function PaymentPage({
       <div className="p-4 bg-white/50 border-t border-gray-100 mt-auto">
         <button
           onClick={() => setShowConfirm(true)}
-          className="w-full bg-[#ff782d] text-white py-4 rounded-2xl text-xl font-bold shadow-lg transition-transform active:scale-[0.98]"
+          className="w-full bg-[#ff782d] text-white py-4 rounded-2xl text-xl font-bold transition-transform active:scale-[0.98]"
         >
           Далее
         </button>
       </div>
 
       {/* Confirmation Step (Overlays) */}
-      {showConfirm && (
-        <>
-          <div
-            className="fixed inset-0 bg-black/40 z-[100]"
-            onClick={() => setShowConfirm(false)}
-          />
-          <motion.div
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            className="fixed bottom-0 left-0 right-0 bg-white z-[110] rounded-t-2xl shadow-2xl flex flex-col max-h-[85vh]"
-          >
-            {/* Handle */}
-            <div className="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mt-3 mb-2" />
+      <AnimatePresence>
+        {showConfirm && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/40 z-[100]"
+              onClick={() => setShowConfirm(false)}
+            />
+            <motion.div
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed bottom-0 left-0 right-0 bg-white z-[110] rounded-t-2xl flex flex-col max-h-[85vh]"
+            >
+              {/* Handle */}
+              <div className="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mt-3 mb-2" />
 
             <div className="px-6 pb-6 space-y-3">
               <h2 className="text-xl font-bold text-gray-800">
@@ -535,12 +549,30 @@ function PaymentPage({
               </div>
 
               <button
-                className="w-full bg-[#ff782d] text-white py-3.5 rounded-2xl text-lg font-bold shadow-lg mt-2 active:scale-[0.98] transition-transform"
+                className="w-full bg-[#ff782d] text-white py-3.5 rounded-2xl text-lg font-bold mt-2 active:scale-[0.98] transition-transform"
                 onClick={() => {
+                  const now = new Date();
+                  const dateStr = now
+                    .toLocaleDateString("ru-RU", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "2-digit",
+                    })
+                    .replace(/\//g, ".");
+                  const timeStr = now.toLocaleTimeString("ru-RU", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                  });
+
+                  setPaymentDate(dateStr);
+                  setPaymentTime(timeStr);
+
                   const newTx = {
                     number: phoneNumber,
                     amount: amount,
-                    time: currentTime,
+                    time: timeStr,
+                    timestamp: Date.now(),
                   };
                   onPaymentSuccess(newTx);
                   setShowConfirm(false);
@@ -553,58 +585,76 @@ function PaymentPage({
           </motion.div>
         </>
       )}
+      </AnimatePresence>
 
       {/* Success Step (Overlays) */}
-      {showSuccess && (
-        <>
-          <div className="fixed inset-0 bg-black/40 z-[120]" />
-          <motion.div
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            className="fixed bottom-0 left-0 right-0 bg-white z-[130] rounded-t-2xl shadow-2xl flex flex-col max-h-[85vh]"
-          >
-            <div className="p-8 flex flex-col items-start gap-4">
-              <div className="w-16 h-16 rounded-full border-4 border-[#00c853] flex items-center justify-center p-2 mb-2 shadow-[0_0_15px_rgba(0,200,83,0.2)]">
-                <Check className="w-8 h-8 text-[#00c853]" strokeWidth={4} />
+      <AnimatePresence>
+        {showSuccess && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/40 z-[120]"
+            />
+            <motion.div
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed bottom-0 left-0 right-0 bg-white z-[130] rounded-t-3xl flex flex-col max-h-[85vh] shadow-[0_-8px_30px_rgba(0,0,0,0.1)]"
+            >
+            <div className="px-8 pt-4 pb-8 flex flex-col items-start gap-4">
+              {/* Animated Checkmark Circle */}
+              <div className="flex justify-start w-full py-1">
+                <div 
+                  className="w-16 h-16 rounded-full border-[4px] flex items-center justify-center transition-colors duration-[10ms]"
+                  style={{ 
+                    borderColor: checkmarkGreen ? "#00d1ac" : "#fbbc05",
+                    color: checkmarkGreen ? "#00d1ac" : "#fbbc05"
+                  }}
+                >
+                  <Check className="w-9 h-9" strokeWidth={4} />
+                </div>
               </div>
 
               <h2 className="text-2xl font-bold text-gray-800">
                 Платеж выполнен
               </h2>
 
-              <div className="w-full space-y-4 py-2 text-sm">
-                <div className="flex justify-between items-start gap-4">
-                  <span className="text-gray-400 font-medium">Поставщик:</span>
-                  <span className="text-black font-normal text-right flex-1">
+              <div className="w-full space-y-2 py-2 text-[15px]">
+                <div className="flex items-start">
+                  <span className="w-1/2 text-gray-500 font-medium">Поставщик:</span>
+                  <span className="w-1/2 text-gray-700 font-bold break-words">
                     DC (по номеру телефона)
                   </span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400 font-medium">Получатель:</span>
-                  <span className="text-black font-normal">{phoneNumber}</span>
+                <div className="flex items-center">
+                  <span className="w-1/2 text-gray-500 font-medium">Получатель:</span>
+                  <span className="w-1/2 text-gray-700 font-bold">{phoneNumber}</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400 font-medium">
+                <div className="flex items-center">
+                  <span className="w-1/2 text-gray-500 font-medium">
                     К зачислению:
                   </span>
-                  <span className="text-black font-normal">{amount}</span>
+                  <span className="w-1/2 text-gray-700 font-bold">{amount}</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400 font-medium">Комиссия:</span>
-                  <span className="text-black font-normal">0.00</span>
+                <div className="flex items-center">
+                  <span className="w-1/2 text-gray-500 font-medium">Комиссия:</span>
+                  <span className="w-1/2 text-gray-700 font-bold">0.00</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400 font-medium">Дата:</span>
-                  <span className="text-black font-normal">{currentDate}</span>
+                <div className="flex items-center">
+                  <span className="w-1/2 text-gray-500 font-medium">Дата:</span>
+                  <span className="w-1/2 text-gray-700 font-bold">{paymentDate}</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400 font-medium">Время:</span>
-                  <span className="text-black font-normal">{currentTime}</span>
+                <div className="flex items-center">
+                  <span className="w-1/2 text-gray-500 font-medium">Время:</span>
+                  <span className="w-1/2 text-gray-700 font-bold">{paymentTime}</span>
                 </div>
               </div>
 
               <button
-                className="w-full bg-[#ff782d] text-white py-4 rounded-2xl text-xl font-bold shadow-lg mt-6 active:scale-[0.98] transition-transform"
+                className="w-full bg-[#ff782d] text-white py-4 rounded-2xl text-xl font-bold mt-6 active:scale-[0.98] transition-transform"
                 onClick={onBack}
               >
                 На главную
@@ -613,6 +663,7 @@ function PaymentPage({
           </motion.div>
         </>
       )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -640,215 +691,234 @@ function Dashboard({
     >
       {/* Header */}
       <header
-        className="flex items-center justify-between px-5 pt-3 pb-1"
+        className="flex items-center justify-between px-5 pt-3 pb-1.5"
         id="dash-header"
       >
         <button 
-          className="flex flex-col gap-1 cursor-pointer p-1" 
+          className="p-1 cursor-pointer" 
           onClick={onMenuClick}
         >
-          <div className="w-5 h-0.5 bg-[#0081ff] rounded-full" />
-          <div className="w-5 h-0.5 bg-[#0081ff] rounded-full" />
-          <div className="w-5 h-0.5 bg-[#0081ff] rounded-full" />
+          <Menu className="w-[21px] h-[21px] text-[#0081ff]" strokeWidth={2.5} />
         </button>
         <div className="flex items-center" id="dash-logo">
-          <LogoComponent className="w-[60px] h-[22px]" />
+          <LogoComponent className="w-[81px] h-[32px]" />
         </div>
         <div className="flex items-center gap-3" id="dash-actions">
-          <div className="p-1">
-            <MessageSquare className="w-5 h-5 text-[#0081ff]" strokeWidth={2} />
+          <div className="p-1 cursor-pointer">
+            <MessageSquare className="w-[18px] h-[18px] text-[#0081ff]" strokeWidth={1.5} />
           </div>
-          <div className="p-1">
-            <Bell className="w-5 h-5 text-[#0081ff]" strokeWidth={2} />
+          <div className="p-1 cursor-pointer">
+            <Bell className="w-[18px] h-[18px] text-[#0081ff]" strokeWidth={1.5} />
           </div>
         </div>
       </header>
 
       {/* Main Content Wrapper */}
-      <div className="mt-2">
+      <div className="mt-1">
         {/* Search Bar */}
-        <div className="px-5 mb-3" id="search-container">
-          <div className="bg-white rounded-xl flex items-center px-4 py-2 shadow-sm border border-gray-100">
-            <Search className="w-4 h-4 text-gray-500 mr-2" strokeWidth={2.5} />
+        <div className="px-5 mb-3.5" id="search-container">
+          <div className="bg-white rounded-xl flex items-center px-4 py-[7.4px] border border-gray-100">
+            <Search className="w-5 h-5 text-gray-400 mr-2" strokeWidth={2.5} />
             <input
               type="text"
               placeholder="Поиск"
-              className="flex-1 bg-transparent outline-none text-[#1a1a1a] font-medium text-sm placeholder:text-gray-400"
+              className="flex-1 bg-transparent outline-none text-[#1a1a1a] font-medium text-base placeholder:text-gray-400"
             />
           </div>
         </div>
 
         {/* Balance & Grid Card Row */}
-        <div className="px-5 flex gap-2 mb-3" id="balance-section">
+        <div className="px-5 flex gap-2 mb-3.5" id="balance-section">
           {/* Balance Card */}
-          <div className="bg-[#0081ff] rounded-[20px] p-4 pb-3 flex-[5] text-white shadow-md relative overflow-hidden">
+          <div className="bg-[#0081ff] rounded-[20px] p-5 pb-4 flex-[6] text-white relative overflow-hidden">
             <div className="relative z-10">
-              <div className="flex items-center gap-1.5 mb-2">
-                <span className="text-[28px] font-bold leading-none tracking-tight">
-                  {showBalance ? "113.44" : "••••••"}
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-[29px] font-black leading-none tracking-tight">
+                  {showBalance ? "5703.43" : "••••••"}
                 </span>
-                <span className="text-xs font-bold opacity-100 mt-2">TJS</span>
-                <div className="flex gap-2.5 ml-auto items-center">
+                <span className="text-[11px] font-black mt-3">TJS</span>
+                <div className="flex gap-4 ml-auto items-center">
                   <button onClick={() => setShowBalance(!showBalance)} className="p-0.5">
                     <Eye
-                      className={`w-5 h-5 ${showBalance ? "opacity-100" : "opacity-60"}`}
-                      strokeWidth={2}
+                      className={`w-5.5 h-5.5 ${showBalance ? "opacity-100" : "opacity-60"}`}
+                      strokeWidth={1.5}
                     />
                   </button>
                   <button className="p-0.5">
-                    <RefreshCw className="w-4 h-4 opacity-100" strokeWidth={3} />
+                    <RefreshCw className="w-5.5 h-5.5 opacity-100" strokeWidth={2.5} />
                   </button>
                 </div>
               </div>
-              <div className="text-white/60 text-[10px] font-medium tracking-tight">
-                26.04.26 - 18:26:28
+              <div className="text-white/80 text-[11px] font-bold tracking-tight">
+                27.04.26 - 21:31:32
               </div>
             </div>
           </div>
           {/* Small Grid Button */}
-          <div className="bg-white rounded-[18px] flex-[1.2] flex items-center justify-center shadow-sm border border-gray-50">
-            <Grid className="w-6 h-6 text-[#007bff]" strokeWidth={2.5} />
+          <div className="bg-white rounded-[20px] flex-[1] flex items-center justify-center border border-gray-100 cursor-pointer active:scale-95 transition-transform">
+            <Grid className="w-8 h-8 text-[#007bff]" strokeWidth={2} />
           </div>
         </div>
 
-        {/* DC (by phone number) Card */}
-        <div className="px-5 mb-4">
+        {/* Transfers Row */}
+        <div className="px-5 mb-3.5 flex gap-2">
           <div 
-            className="bg-white rounded-2xl p-2.5 w-20 h-24 flex flex-col items-center justify-center shadow-sm border border-gray-100 cursor-pointer active:scale-95 transition-transform"
+            className="bg-white rounded-lg p-1.5 w-[68px] h-[68px] flex flex-col items-center justify-center border border-gray-50 cursor-pointer active:scale-95 transition-transform"
             onClick={onPaymentClick}
           >
-            <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mb-2">
-              <div className="w-6 h-4 relative">
+            <div className="w-6 h-6 rounded-full bg-blue-50 flex items-center justify-center mb-1">
+              <div className="w-3.5 h-2.5 relative">
                 <LogoComponent className="w-full h-full object-contain" />
               </div>
             </div>
-            <span className="text-[10px] text-center font-bold text-gray-700 leading-tight">
-              DC (по номеру телефона)
+            <span className="text-[7.5px] text-center font-bold text-gray-900 leading-[1.1]">
+              DC<br/>(по номеру телефона)
+            </span>
+          </div>
+
+          <div 
+            className="bg-white rounded-lg p-1.5 w-[68px] h-[68px] flex flex-col items-center justify-center border border-gray-50 cursor-pointer active:scale-95 transition-transform relative"
+          >
+            <div className="absolute top-1 right-1 text-gray-300">
+               <X className="w-2.5 h-2.5" />
+            </div>
+            <div className="w-6 h-6 rounded-full bg-blue-50 flex items-center justify-center mb-1">
+              <div className="w-3.5 h-2.5 relative">
+                <LogoComponent className="w-full h-full object-contain" />
+              </div>
+            </div>
+            <span className="text-[7.5px] text-center font-bold text-gray-900 leading-[1.1]">
+              DC<br/>(по номеру карты)
             </span>
           </div>
         </div>
 
         {/* Banners */}
-        <div className="mb-4 overflow-hidden">
+        <div className="mb-3 overflow-hidden">
           <div
-            className="flex overflow-x-auto px-5 gap-3 no-scrollbar"
+            className="flex overflow-x-auto px-5 gap-[9px] no-scrollbar"
             id="banners"
           >
             {/* Purple Banner */}
-            <div className="flex-shrink-0 w-[240px] h-[120px] bg-[#4b2ba2] rounded-[24px] p-4 text-white relative overflow-hidden flex flex-col justify-start">
-              <h3 className="text-sm font-black uppercase leading-tight mb-2 max-w-[140px] tracking-tight">
+            <div className="flex-shrink-0 w-[210px] h-[95px] bg-gradient-to-br from-[#3b24ab] to-[#25157d] rounded-[16px] p-3 text-white relative overflow-hidden flex flex-col justify-start">
+              <h3 className="text-[8.3px] font-black uppercase leading-tight mb-1.5 max-w-[110px] tracking-tight">
                 ПЕРЕВОДЫ БЕЗ КОМИССИИ ИЗ УРАЛСИБА
               </h3>
-              <div className="flex gap-2 mb-2">
-                <div className="w-6 h-4 bg-white rounded-[1px] overflow-hidden flex flex-col">
+              <div className="flex gap-1 relative z-10">
+                <div className="w-5 h-3 bg-white rounded-[0.5px] overflow-hidden flex flex-col">
                   <div className="h-1/3 bg-white" />
-                  <div className="h-1/3 bg-blue-600" />
-                  <div className="h-1/3 bg-red-600" />
+                  <div className="h-1/3 bg-[#0039a6]" />
+                  <div className="h-1/3 bg-[#d52b1e]" />
                 </div>
-                <div className="w-6 h-4 bg-white rounded-[1px] overflow-hidden flex flex-col">
-                  <div className="h-1/3 bg-red-600" />
+                <div className="w-5 h-3 bg-white rounded-[0.5px] overflow-hidden flex flex-col">
+                  <div className="h-1/3 bg-[#d52b1e]" />
                   <div className="h-1/3 bg-white" />
-                  <div className="h-1/3 bg-green-600" />
+                  <div className="h-1/3 bg-[#009b4c]" />
                 </div>
               </div>
-              <div className="absolute right-[-5%] bottom-[-5%] w-24 h-24 bg-white/5 rounded-full" />
-              <div className="absolute right-3 top-3 w-16 h-20 bg-orange-400 rounded-[18px] flex items-center justify-center font-black text-3xl shadow-lg z-10">
-                0%
+              <div className="absolute right-[-5%] bottom-[-5%] w-20 h-20 bg-blue-400/10 rounded-full" />
+              <div className="absolute right-3 top-3 w-[40px] h-16 bg-[#ff782d] rounded-[12px] flex flex-col items-center justify-center z-10 border border-white/10">
+                 <span className="font-black text-[18px] italic">0%</span>
+                 <div className="w-5 h-5 bg-white/20 rounded-full flex items-center justify-center mt-1">
+                    <LogoComponent className="w-3 h-3 object-contain" />
+                 </div>
               </div>
             </div>
 
             {/* Green Banner */}
-            <div className="flex-shrink-0 w-[240px] h-[120px] bg-gradient-to-br from-green-50 to-green-100 rounded-[24px] p-4 border border-green-200 relative overflow-hidden">
-              <h3 className="text-sm font-black text-gray-800 uppercase leading-tight mb-2 max-w-[150px] tracking-tight">
+            <div className="flex-shrink-0 w-[210px] h-[95px] bg-gradient-to-br from-[#f0fff4] to-[#dcfce7] rounded-[16px] p-3 border border-green-100 relative overflow-hidden">
+              <h3 className="text-[10px] font-black text-[#1a1a1a] uppercase leading-tight mb-2 max-w-[140px] tracking-tight">
                 СОҲИБИ ХОНА БО ИПОТЕКА ШАВЕД
               </h3>
-              <div className="bg-green-500 text-white px-3 py-1 rounded-full inline-block text-[9px] font-bold uppercase shadow-sm">
+              <div className="bg-[#5acb9a] text-white px-3 py-1 rounded-full inline-block text-[8px] font-black tracking-tight">
                 ipoteka.dc.tj
               </div>
-              <div className="absolute right-0 bottom-0 w-24 h-full bg-[url('https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&q=80&w=200')] bg-cover opacity-20" />
+              <div className="absolute right-[-10px] bottom-[-10px] w-20 h-full opacity-10">
+                 <Home className="w-full h-full text-green-900" />
+              </div>
             </div>
           </div>
         </div>
 
         {/* Categories Bar */}
-        <div className="px-5 mb-4" id="categories-bar">
-          <div className="bg-white rounded-[20px] p-3 flex items-center justify-between shadow-sm border border-gray-50">
-            <div className="flex-1 flex items-center justify-center gap-2">
-              <div className="w-10 h-10 bg-[#38b000] rounded-full flex items-center justify-center text-white shadow-md">
-                <Zap className="w-5 h-5 fill-current" />
+        <div className="px-5 mb-3.5" id="categories-bar">
+          <div className="bg-white rounded-[16px] px-2 py-1.5 flex items-center justify-between border border-gray-50 h-[44px]">
+            <div className="flex-1 flex items-center justify-center gap-1.5">
+              <div className="w-7 h-7 bg-[#3eb000] rounded-full flex items-center justify-center text-white">
+                <Zap className="w-3.5 h-3.5 fill-current" />
               </div>
-              <span className="font-bold text-sm text-gray-800">Neru</span>
+              <span className="font-black text-[10px] text-gray-900">Neru</span>
             </div>
-            <div className="h-6 w-px bg-gray-200" />
-            <div className="flex-1 flex items-center justify-center gap-2">
-              <div className="w-10 h-10 bg-[#0081ff] rounded-full flex items-center justify-center text-white relative shadow-md">
-                <Car className="w-5 h-5" />
-                <div className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-red-500 rounded-full border border-white" />
+            <div className="h-5 w-px bg-gray-200 opacity-50" />
+            <div className="flex-1 flex items-center justify-center gap-1.5">
+              <div className="w-7 h-7 bg-[#0081ff] rounded-full flex items-center justify-center text-white relative">
+                <div className="w-3.5 h-3.5 border-[1.5px] border-white/80 rounded-full flex items-center justify-center">
+                   <div className="w-1 h-1 bg-white rounded-full" />
+                </div>
+                <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border-2 border-white" />
               </div>
-              <span className="font-bold text-sm text-gray-800">Parking</span>
+              <span className="font-black text-[10px] text-gray-900">Parking</span>
             </div>
-            <div className="h-6 w-px bg-gray-200" />
-            <div className="flex-1 flex items-center justify-center gap-2">
-              <div className="w-10 h-10 bg-[#f85e00] rounded-full flex items-center justify-center text-white shadow-md">
-                <Bird className="w-5 h-5" />
+            <div className="h-5 w-px bg-gray-200 opacity-50" />
+            <div className="flex-1 flex items-center justify-center gap-1.5">
+              <div className="w-7 h-7 bg-[#f85e00] rounded-full flex items-center justify-center text-white">
+                <Bird className="w-3.5 h-3.5" />
               </div>
-              <span className="font-bold text-sm text-gray-800">Шохин</span>
+              <span className="font-black text-[10px] text-gray-900 text-center leading-none">Шохин</span>
             </div>
           </div>
         </div>
 
         {/* Services Grid */}
-        <div className="px-5 space-y-3 pb-8" id="services-grid">
+        <div className="px-5 space-y-2.5 pb-44" id="services-grid">
           {/* Row 1 */}
-          <div className="grid grid-cols-3 gap-3">
-            <div className="col-span-2 bg-white rounded-[24px] p-4 shadow-sm border border-gray-50 flex justify-between items-start relative h-32 cursor-pointer active:scale-95 transition-transform overflow-hidden">
-              <div className="z-10">
-                <h4 className="text-lg font-black text-gray-900 mb-1 leading-tight">
+          <div className="grid grid-cols-3 gap-2.5">
+            <div className="col-span-2 bg-white rounded-[16px] p-3.5 border border-gray-50 flex flex-col justify-between items-start relative h-[98px] cursor-pointer active:scale-95 transition-transform overflow-hidden">
+               <h4 className="text-[17px] font-black text-gray-900 mb-0.5 leading-tight tracking-tight">
                   Оплата услуг
                 </h4>
-                <p className="text-[10px] text-gray-400 font-bold leading-relaxed max-w-[100px]">
+                <p className="text-[8.5px] text-gray-500 font-bold leading-tight max-w-[150px]">
                   Мобильная связь, Интернет, Коммунальные услуги
                 </p>
-              </div>
-              <div className="w-14 h-14 bg-[#e0f1ff] rounded-[18px] flex items-center justify-center relative shadow-inner mt-2">
-                 <div className="w-10 h-8 bg-[#0091ff] rounded-lg relative overflow-hidden shadow-sm">
-                   <div className="absolute top-1 left-2 right-2 h-1 bg-white/20 rounded-full" />
-                 </div>
-              </div>
+               <div className="absolute right-[-5px] bottom-[-5px] w-20 h-16 opacity-30">
+                  <div className="w-full h-full bg-[#0081ff] rounded-full blur-2xl" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                     <div className="w-12 h-9 bg-blue-100 rounded-xl" />
+                  </div>
+               </div>
             </div>
-            <div className="bg-white rounded-[24px] p-4 shadow-sm border border-gray-50 flex flex-col justify-between items-start h-32 cursor-pointer active:scale-95 transition-transform">
-              <h4 className="text-lg font-black text-gray-900 leading-tight">
+            <div className="bg-white rounded-[16px] p-3.5 border border-gray-50 flex flex-col justify-between items-start h-[98px] cursor-pointer active:scale-95 transition-transform">
+              <h4 className="text-[15px] font-black text-gray-900 leading-tight tracking-tight">
                 Карты
               </h4>
-              <div className="w-12 h-8 bg-[#ffcc00] rounded-lg mt-auto relative shadow-sm">
-                 <div className="absolute bottom-1.5 left-2 right-2 h-1 bg-black/10 rounded-full" />
+              <div className="w-full h-12 bg-[#ffcc00] rounded-lg mt-auto relative flex flex-col justify-end p-1.5 px-2 gap-0.5">
+                 <div className="h-0.5 w-3 bg-black/10 rounded-full" />
+                 <div className="h-0.5 w-6 bg-black/10 rounded-full" />
               </div>
             </div>
           </div>
 
           {/* Row 2 */}
-          <div className="grid grid-cols-3 gap-3">
-            <div className="bg-white rounded-[24px] p-4 shadow-sm border border-gray-50 flex flex-col h-32 cursor-pointer active:scale-95 transition-transform">
-              <h4 className="text-md font-black text-gray-900 mb-2">Кредиты</h4>
-              <div className="mx-auto mt-auto mb-1 w-14 h-12 bg-[#ffeff4] rounded-[18px] flex items-center justify-center relative">
-                 <div className="w-10 h-10 bg-[#ff4d88] rounded-xl flex items-center justify-center shadow-sm">
-                   <Check className="w-5 h-5 text-white" strokeWidth={4} />
-                 </div>
+          <div className="grid grid-cols-3 gap-2.5">
+            <div className="bg-white rounded-[16px] p-4 border border-gray-50 flex flex-col items-start justify-between aspect-square cursor-pointer active:scale-95 transition-transform">
+              <h4 className="text-[14px] font-black text-gray-900 leading-tight tracking-tight">Кредиты</h4>
+              <div className="w-full h-10 mt-auto bg-[#ffeff4] rounded-lg flex items-center justify-center overflow-hidden">
+                 <div className="w-8 h-8 bg-[#ff4d88] rounded-full blur-[6px] absolute opacity-20" />
+                 <div className="w-5 h-5 bg-[#ff4d88] rounded-full relative z-10" />
               </div>
             </div>
-            <div className="bg-white rounded-[24px] p-4 shadow-sm border border-gray-50 flex flex-col h-32 cursor-pointer active:scale-95 transition-transform">
-              <h4 className="text-md font-black text-gray-900 mb-2">Депозиты</h4>
-              <div className="mx-auto mt-auto mb-1 w-14 h-12 bg-[#eefaf4] rounded-[18px] flex items-center justify-center">
-                 <div className="w-10 h-10 bg-[#2abe76] rounded-xl flex items-center justify-center shadow-sm">
-                   <Plus className="w-5 h-5 text-white" strokeWidth={4} />
-                 </div>
+            <div className="bg-white rounded-[16px] p-4 border border-gray-50 flex flex-col items-start justify-between aspect-square cursor-pointer active:scale-95 transition-transform">
+              <h4 className="text-[14px] font-black text-gray-900 leading-tight tracking-tight">Депозиты</h4>
+              <div className="w-full h-10 mt-auto bg-blue-50 rounded-lg flex items-center justify-center relative">
+                 <div className="w-8 h-8 bg-blue-500/10 rounded-full absolute" />
+                 <Scan className="w-[22px] h-[22px] text-[#0081ff]" strokeWidth={2.5} />
               </div>
             </div>
-            <div className="bg-white rounded-[24px] p-4 shadow-sm border border-gray-50 flex flex-col h-32 cursor-pointer active:scale-95 transition-transform">
-              <h4 className="text-sm font-black text-gray-900 leading-tight mb-2">Курс<br/>валют</h4>
-              <div className="mx-auto mt-auto mb-1 w-14 h-12 bg-[#edf4ff] rounded-[18px] flex items-center justify-center">
-                 <div className="w-10 h-10 bg-[#0081ff] rounded-full flex items-center justify-center shadow-sm">
-                   <RefreshCw className="w-5 h-5 text-white" strokeWidth={3} />
+            <div className="bg-white rounded-[16px] p-4 border border-gray-50 flex flex-col items-start justify-between aspect-square cursor-pointer active:scale-95 transition-transform">
+              <h4 className="text-[14px] font-black text-gray-900 leading-tight tracking-tight leading-tight">Курс валют</h4>
+              <div className="w-full h-10 mt-auto bg-gray-50 rounded-lg flex items-center justify-center">
+                 <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
+                    <History className="w-5 h-5 text-gray-400" />
                  </div>
               </div>
             </div>
@@ -856,6 +926,129 @@ function Dashboard({
         </div>
       </div>
     </div>
+  );
+}
+
+// --- Scanner Overlay Component ---
+function ScannerOverlay({ onClose }: { onClose: () => void }) {
+  const [isFlashOn, setIsFlashOn] = useState(false);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    let stream: MediaStream | null = null;
+    async function startCamera() {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "environment" },
+        });
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      } catch (err) {
+        console.error("Camera access denied:", err);
+      }
+    }
+    startCamera();
+    return () => {
+      if (stream) {
+        stream.getTracks().forEach((track) => track.stop());
+      }
+    };
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black z-[300] flex flex-col font-sans overflow-hidden"
+    >
+      <video
+        ref={videoRef}
+        autoPlay
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+
+      {/* Dim Overlay */}
+      <div className="absolute inset-0 bg-black/40" />
+
+      {/* Top Bar */}
+      <div className="relative z-10 p-6 flex justify-between items-center mt-4">
+        <button
+          onClick={() => setIsFlashOn(!isFlashOn)}
+          className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
+            isFlashOn ? "bg-white text-black" : "bg-black/30 text-white"
+          }`}
+        >
+          <Zap className={`w-6 h-6 ${isFlashOn ? "fill-current" : ""}`} />
+        </button>
+        <div className="text-white text-lg font-bold tracking-tight">
+          Наведите камеру на QR-код
+        </div>
+        <button
+          onClick={onClose}
+          className="w-12 h-12 rounded-xl bg-black/30 text-white flex items-center justify-center"
+        >
+          <X className="w-6 h-6" />
+        </button>
+      </div>
+
+      {/* Scanning Frame */}
+      <div className="flex-1 flex items-center justify-center relative p-8">
+        <div className="w-full max-w-[280px] aspect-square relative">
+          {/* Border Corners */}
+          <div className="absolute top-0 left-0 w-12 h-12 border-t-4 border-l-4 border-[#ff782d] rounded-tl-[32px]" />
+          <div className="absolute top-0 right-0 w-12 h-12 border-t-4 border-r-4 border-[#ff782d] rounded-tr-[32px]" />
+          <div className="absolute bottom-0 left-0 w-12 h-12 border-b-4 border-l-4 border-[#ff782d] rounded-bl-[32px]" />
+          <div className="absolute bottom-0 right-0 w-12 h-12 border-b-4 border-r-4 border-[#ff782d] rounded-br-[32px]" />
+          
+          {/* Transparent Hole */}
+          <div className="absolute inset-0 rounded-[32px] overflow-hidden">
+             <div className="absolute inset-0 bg-transparent" />
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Logos */}
+      <div className="relative z-10 px-8 pb-10 flex justify-center">
+        <div className="bg-black/60 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/10 flex items-center gap-6">
+           {/* DC Logo Placeholder */}
+           <div className="flex items-center gap-1.5 shrink-0">
+             <div className="w-8 h-5 bg-white rounded-sm flex items-center justify-center">
+                <span className="text-[10px] font-black text-[#1a5fb4]">DC</span>
+             </div>
+             <span className="text-white text-[7px] font-bold leading-tight opacity-90 tracking-tight whitespace-nowrap">
+               DC<br/>(по номеру Телефона) ё карта)
+             </span>
+           </div>
+           
+           <div className="h-6 w-px bg-white/20" />
+           
+           {/* Sberbank Logo Placeholder */}
+           <div className="flex items-center gap-2">
+             <div className="w-6 h-6 rounded-full border-2 border-[#5acb9a] flex items-center justify-center p-0.5">
+               <div className="w-full h-full bg-[#5acb9a] rounded-full" />
+             </div>
+             <span className="text-white text-[14px] font-bold tracking-tight">СБЕРБАНК</span>
+           </div>
+
+           <div className="h-6 w-px bg-white/20" />
+
+           {/* QR Logo Placeholder */}
+           <div className="flex items-center gap-1">
+              <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center relative overflow-hidden">
+                 <div className="w-6 h-6 border-2 border-white rounded-md flex items-center justify-center">
+                    <div className="w-2 h-2 bg-white rounded-full" />
+                 </div>
+                 <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-white rounded-full flex items-center justify-center">
+                    <Search className="w-2.5 h-2.5 text-black" strokeWidth={4} />
+                 </div>
+              </div>
+           </div>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
@@ -879,6 +1072,7 @@ function SplashScreen({ LogoComponent }: { LogoComponent: any }) {
 // --- PIN Entrance Component ---
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
+  const [showScanner, setShowScanner] = useState(false);
   const [pin, setPin] = useState<number[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeTab, setActiveTab] = useState<Page>("home");
@@ -901,10 +1095,36 @@ export default function App() {
       return next;
     });
   };
-  const [transactions, setTransactions] = useState([
-    { number: "992918120194", amount: "20.00", time: "12:26:46" },
-    { number: "992918179708", amount: "2.50", time: "08:52:48" },
-  ]);
+  const [transactions, setTransactions] = useState<any[]>(() => {
+    const saved = localStorage.getItem("transactions");
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      const now = Date.now();
+      // Filter out transactions older than 24 hours (86400000 ms)
+      return parsed.filter((tx: any) => tx.timestamp && now - tx.timestamp < 86400000);
+    }
+    return [
+      { number: "992918120194", amount: "20.00", time: "12:26:46", timestamp: Date.now() },
+      { number: "992918179708", amount: "2.50", time: "08:52:48", timestamp: Date.now() },
+    ];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+  }, [transactions]);
+
+  useEffect(() => {
+    // Check every minute for expired transactions
+    const interval = setInterval(() => {
+      const now = Date.now();
+      setTransactions((prev) => {
+        const filtered = prev.filter((tx) => tx.timestamp && now - tx.timestamp < 86400000);
+        if (filtered.length !== prev.length) return filtered;
+        return prev;
+      });
+    }, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -1036,7 +1256,7 @@ export default function App() {
 
         {/* Sidebar */}
         <div
-          className={`fixed top-0 left-0 bottom-0 w-80 bg-white z-[70] transform transition-transform duration-300 shadow-2xl p-6 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
+          className={`fixed top-0 left-0 bottom-0 w-80 bg-white z-[70] transform transition-transform duration-300 p-6 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
         >
           <div className="flex justify-between items-center mb-10">
             <h2 className="text-2xl font-black text-gray-800">Меню</h2>
@@ -1059,7 +1279,7 @@ export default function App() {
                 htmlFor="logo-upload"
                 className="flex items-center gap-4 p-4 bg-blue-50 rounded-2xl cursor-pointer active:scale-95 transition-transform"
               >
-                <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm text-blue-600 font-bold text-2xl">
+                <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-blue-600 font-bold text-2xl">
                   +
                 </div>
                 <span className="font-bold text-[#1a5fb4] text-lg">Лого</span>
@@ -1108,86 +1328,80 @@ export default function App() {
 
         {/* Shared Nav */}
         <>
+          {showScanner && <ScannerOverlay onClose={() => setShowScanner(false)} />}
 
           {/* Bottom Navigation */}
-          <nav
-            className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-4 py-2 flex items-center justify-between z-40 rounded-t-[24px] shadow-[0_-8px_24px_rgba(0,0,0,0.06)]"
-            id="bottom-nav"
-          >
-            {/* Главная */}
-            <div
-              className="flex flex-col items-center gap-1 cursor-pointer"
-              onClick={() => setActiveTab("home")}
-            >
+          <div className="fixed bottom-0 left-0 right-0 z-40 pointer-events-none drop-shadow-[0_-5px_15px_rgba(0,0,0,0.08)]">
+            <div className="absolute inset-x-0 bottom-0 pointer-events-auto">
+              <svg
+                viewBox="0 0 375 64"
+                className="w-full h-[64px] fill-white"
+                preserveAspectRatio="none"
+              >
+                <path d="M0 20C0 8.95431 8.95431 0 20 0H140C152 0 155 4 160 12C165 20 172 28 187.5 28C203 28 210 20 215 12C220 4 223 0 235 0H355C366.046 0 375 8.95431 375 20V64H0V20Z" />
+              </svg>
+            </div>
+            
+            <nav className="relative px-4 pb-2 flex items-center justify-around h-16 pointer-events-auto mt-[-64px]" id="bottom-nav">
+              {/* Главная */}
               <div
-                className={`w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-300 ${activeTab === "home" ? "bg-blue-50" : "bg-transparent"}`}
+                className="flex flex-col items-center gap-0.5 cursor-pointer mt-6"
+                onClick={() => setActiveTab("home")}
               >
                 <Home
-                  className={`w-6 h-6 ${activeTab === "home" ? "text-blue-500" : "text-gray-300"}`}
-                  strokeWidth={activeTab === "home" ? 2.5 : 2}
-                  fill={activeTab === "home" ? "currentColor" : "none"}
-                  fillOpacity={0.1}
+                  className={`w-6 h-6 ${activeTab === "home" ? "text-[#0081ff]" : "text-gray-300"}`}
+                  strokeWidth={2}
                 />
+                <span
+                  className={`text-[9.5px] font-bold ${activeTab === "home" ? "text-blue-500" : "text-gray-400"}`}
+                >
+                  Главная
+                </span>
               </div>
-              <span
-                className={`text-[10px] font-bold ${activeTab === "home" ? "text-blue-500" : "text-gray-400"}`}
-              >
-                Главная
-              </span>
-            </div>
 
-            {/* Переводы */}
-            <div className="flex flex-col items-center gap-1 cursor-pointer">
-              <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-transparent">
-                <ArrowRightLeft className="w-6 h-6 text-gray-300" strokeWidth={2.5} />
+              {/* Переводы */}
+              <div className="flex flex-col items-center gap-0.5 cursor-pointer mt-6">
+                <ArrowRightLeft className="w-6 h-6 text-gray-300" strokeWidth={2} />
+                <span className="text-[10px] font-bold text-gray-400">
+                  Переводы
+                </span>
               </div>
-              <span className="text-[10px] font-bold text-gray-400">
-                Переводы
-              </span>
-            </div>
 
-            {/* Large Floating Center Button */}
-            <div className="relative -mt-10">
-               <div className="absolute inset-0 bg-blue-500/10 blur-lg rounded-full transform scale-125" />
-               <div className="bg-[#0081ff] w-14 h-14 rounded-full flex items-center justify-center shadow-[0_10px_20px_rgba(0,129,255,0.3)] border-[4px] border-white active:scale-90 transition-transform relative z-10">
-                 <div className="w-7 h-7 border-2 border-white rounded-md flex items-center justify-center relative">
-                   <div className="w-3 h-3 bg-white/20 rounded-[2px]" />
-                 </div>
-               </div>
-            </div>
-
-            {/* Сервисы */}
-            <div className="flex flex-col items-center gap-1 cursor-pointer">
-              <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-transparent">
-                <LayoutGrid className="w-6 h-6 text-gray-300" strokeWidth={2} />
-              </div>
-              <span className="text-[10px] font-bold text-gray-400">
-                Сервисы
-              </span>
-            </div>
-
-            {/* История */}
-            <div
-              className="flex flex-col items-center gap-1 cursor-pointer"
-              onClick={() => setActiveTab("history")}
-            >
-              <div
-                className={`w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-300 ${activeTab === "history" ? "bg-blue-50" : "bg-transparent"}`}
-              >
-                <div className={`${activeTab === "history" ? "" : "w-6 h-6 bg-gray-50 rounded-full flex items-center justify-center"}`}>
-                  <Clock
-                    className={`w-5 h-5 ${activeTab === "history" ? "text-blue-500" : "text-gray-400"}`}
-                    strokeWidth={2.5}
-                  />
+              {/* Large Floating Center Button */}
+              <div className="relative -mt-6 flex flex-col items-center">
+                <div 
+                  className="bg-[#0081ff] w-[54px] h-[54px] rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(0,129,255,0.4)] active:scale-90 transition-transform relative z-10 cursor-pointer"
+                  onClick={() => setShowScanner(true)}
+                >
+                  <Scan className="w-7 h-7 text-white" strokeWidth={2.5} />
                 </div>
               </div>
-              <span
-                className={`text-[10px] font-bold ${activeTab === "history" ? "text-blue-500" : "text-gray-400"}`}
+
+              {/* Сервисы */}
+              <div className="flex flex-col items-center gap-0.5 cursor-pointer mt-6">
+                <Grid className="w-6 h-6 text-gray-300" strokeWidth={2} />
+                <span className="text-[10px] font-bold text-gray-400">
+                  Сервисы
+                </span>
+              </div>
+
+              {/* История */}
+              <div
+                className="flex flex-col items-center gap-0.5 cursor-pointer mt-6"
+                onClick={() => setActiveTab("history")}
               >
-                История
-              </span>
-            </div>
-          </nav>
+                <Clock
+                  className={`w-6 h-6 ${activeTab === "history" ? "text-[#0081ff]" : "text-gray-300"}`}
+                  strokeWidth={2}
+                />
+                <span
+                  className={`text-[10px] font-bold ${activeTab === "history" ? "text-blue-500" : "text-gray-400"}`}
+                >
+                  История
+                </span>
+              </div>
+            </nav>
+          </div>
         </>
       </div>
     );
@@ -1210,7 +1424,7 @@ export default function App() {
       >
         <div className="flex items-center gap-2 mb-16" id="logo-container">
           <div className="relative w-48 h-28" id="logo-icon">
-            <LogoComponent className="w-full h-full drop-shadow-sm" />
+            <LogoComponent className="w-full h-full" />
           </div>
         </div>
         <h1
