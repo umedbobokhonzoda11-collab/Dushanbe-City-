@@ -10,7 +10,7 @@
 
 @layer base {
   body {
-    @apply bg-black text-[#1a1a1a] font-sans antialiased no-scrollbar;
+    @apply bg-white text-[#1a1a1a] font-sans antialiased no-scrollbar;
   }
 }
 

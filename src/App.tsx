@@ -73,7 +73,7 @@ function TransactionDetail({
         <div
           className="text-right text-[22px] font-normal text-[#1a1a1a]/70 leading-[1.2] mt-1 pr-1"
         >
-          ЗАО "Душанбе Сити Банк"
+          ЗАО "Таджик Банк"
           <br />
           ИНН: 510022404
           <br />
@@ -91,7 +91,7 @@ function TransactionDetail({
           { label: "Дата операции:", value: "26.04.2026" },
           { label: "Время операции:", value: transaction.time },
           { label: "Номер операции:", value: "1652765434" },
-          { label: "Поставщик: DC (по номеру телефона)", value: "" },
+          { label: "Поставщик: Tajik Bank (по номеру телефона)", value: "" },
           { label: "Счет отправителя:", value: "9762***9372" },
           { label: "Счет получателя:", value: transaction.number },
           { label: "Сумма операции:", value: transaction.amount },
@@ -120,7 +120,7 @@ function TransactionDetail({
           style={{ transform: "scale(0.75)" }}
         >
           <span className="text-[#0081ff] text-sm font-bold uppercase tracking-tight text-center">
-            ЗАО «Душанбе Сити Банк»
+            ЗАО «Таджик Банк»
           </span>
           <span className="text-[#0081ff] text-[40px] font-bold uppercase text-center leading-[1] mt-0.5 mb-1.5 font-sans tracking-tight">
             ОПЕРАЦИЯ
@@ -226,7 +226,7 @@ function HistoryScreen({
           <span className="text-xl font-medium text-gray-800 tracking-tight">
             Операции
           </span>
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#007bff]" />
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#5acb9a]" />
         </div>
         <div className="flex-1 flex flex-col items-center py-3">
           <span className="text-xl font-medium text-gray-400 tracking-tight">
@@ -241,10 +241,10 @@ function HistoryScreen({
         id="update-status"
       >
         <span className="tracking-tight">Обновлено: 27.04.26 - 06:08</span>
-        <div className="w-[18px] h-[18px] rounded-full border-2 border-[#007bff] flex items-center justify-center">
+        <div className="w-[18px] h-[18px] rounded-full border-2 border-[#5acb9a] flex items-center justify-center">
           <svg
             viewBox="0 0 24 24"
-            className="w-3 h-3 text-[#007bff] fill-none stroke-current"
+            className="w-3 h-3 text-[#5acb9a] fill-none stroke-current"
             strokeWidth={4}
           >
             <path d="M20 6L9 17L4 12" />
@@ -279,7 +279,7 @@ function HistoryScreen({
                     {tx.number}
                   </span>
                   <span className="text-[#969ba5] text-[16px] font-normal leading-normal font-sans">
-                    DC (по номеру телефона)
+                    Tajik Bank (по номеру телефона)
                   </span>
                 </div>
                 <div className="flex flex-col items-end">
@@ -335,14 +335,14 @@ function PaymentPage({
   }, [showSuccess]);
 
   return (
-    <div className="min-h-screen bg-[#f2f7fb] font-sans select-none overflow-x-hidden flex flex-col relative">
+    <div className="min-h-screen bg-white font-sans select-none overflow-x-hidden flex flex-col relative">
       {/* Header */}
-      <header className="bg-[#007bff] px-4 py-3 flex items-center justify-between text-white">
+      <header className="bg-[#5acb9a] px-4 py-3 flex items-center justify-between text-white">
         <div className="flex items-center gap-4">
           <button onClick={onBack} className="p-1">
             <ChevronLeft className="w-7 h-7" />
           </button>
-          <h1 className="text-base font-bold">DC (по номеру телефона)</h1>
+          <h1 className="text-base font-bold">Tajik Bank (по номеру телефона)</h1>
         </div>
         <button className="p-1">
           <Star className="w-6 h-6" />
@@ -352,7 +352,7 @@ function PaymentPage({
       {/* Form Content */}
       <div className="p-4 flex-1 space-y-3">
         {/* Phone Input */}
-        <div className="bg-white rounded-2xl p-3 border border-gray-100 flex items-center gap-3">
+        <div className="bg-white rounded-2xl p-3 border-[0.5px] border-black flex items-center gap-3">
           <input
             type="text"
             inputMode="numeric"
@@ -363,22 +363,22 @@ function PaymentPage({
             className="flex-1 bg-transparent border-none outline-none text-gray-800 font-medium placeholder:text-gray-400"
           />
           <div className="flex gap-2">
-            <History className="w-5 h-5 text-blue-600" />
-            <div className="bg-blue-600/10 p-1 rounded-lg">
-              <Contact2 className="w-4 h-4 text-blue-600" />
+            <History className="w-5 h-5 text-[#5acb9a]" />
+            <div className="bg-[#5acb9a]/10 p-1 rounded-lg">
+              <Contact2 className="w-4 h-4 text-[#5acb9a]" />
             </div>
           </div>
         </div>
 
         {/* Action Button */}
-        <div className="bg-blue-600/10 rounded-2xl p-3 border border-blue-100 flex items-center justify-center">
-          <span className="text-blue-600 font-bold text-sm">
+        <div className="bg-[#5acb9a]/10 rounded-2xl p-3 border-[0.5px] border-black flex items-center justify-center">
+          <span className="text-[#5acb9a] font-bold text-sm">
             Проверить номер/счет
           </span>
         </div>
 
         {/* Amount Input */}
-        <div className="bg-white rounded-2xl p-3 border border-gray-100">
+        <div className="bg-white rounded-2xl p-3 border-[0.5px] border-black">
           <div className="flex items-center gap-2">
             <span className="text-gray-400 font-bold uppercase text-xs">
               TJS
@@ -400,7 +400,7 @@ function PaymentPage({
         </div>
 
         {/* Comment Input */}
-        <div className="bg-white rounded-2xl p-3 border border-gray-100 flex items-start">
+        <div className="bg-white rounded-2xl p-3 border-[0.5px] border-black flex items-start">
           <input
             type="text"
             placeholder="Комментарий"
@@ -416,7 +416,7 @@ function PaymentPage({
         {/* Card Selection Horizontal Scroll */}
         <div className="flex gap-2 overflow-x-auto no-scrollbar py-1">
           {/* Card 1 */}
-          <div className="flex-shrink-0 w-24 h-20 bg-[#007bff] rounded-lg p-2.5 text-white flex flex-col justify-between">
+          <div className="flex-shrink-0 w-24 h-20 bg-[#5acb9a] rounded-lg p-2.5 text-white flex flex-col justify-between border-[0.5px] border-black">
             <span className="text-[8px] font-bold opacity-80">DBC****9372</span>
             <span className="text-xs font-bold truncate transform scale-y-[0.85] origin-bottom inline-block">
               5703.43 TJS
@@ -424,7 +424,7 @@ function PaymentPage({
           </div>
 
           {/* Card 2 */}
-          <div className="flex-shrink-0 w-24 h-20 bg-gradient-to-br from-blue-300 to-orange-200 rounded-lg p-2.5 text-white relative overflow-hidden flex flex-col justify-between">
+          <div className="flex-shrink-0 w-24 h-20 bg-gradient-to-br from-blue-300 to-orange-200 rounded-lg p-2.5 text-white relative overflow-hidden flex flex-col justify-between border-[0.5px] border-black">
             <div className="flex justify-between items-start">
               <span className="text-[8px] font-bold">КРЕДИТ</span>
               <div className="bg-red-600 text-white text-[6px] font-bold px-1 py-0.5 rounded-xs">
@@ -436,7 +436,7 @@ function PaymentPage({
           </div>
 
           {/* Card 3 */}
-          <div className="flex-shrink-0 w-24 h-20 bg-white rounded-lg p-2.5 border border-gray-100 flex flex-col justify-between items-start">
+          <div className="flex-shrink-0 w-24 h-20 bg-white rounded-lg p-2.5 border-[0.5px] border-black flex flex-col justify-between items-start">
             <span className="text-[7px] font-bold text-gray-400">
               BAB****....
             </span>
@@ -449,7 +449,7 @@ function PaymentPage({
         {/* Disclaimer Text */}
         <div className="px-2 pt-2">
           <p className="text-[11px] text-gray-400 leading-relaxed font-medium">
-            Для перевода на карту Душанбе Сити укажите номер кошелька и введите
+            Для перевода на карту Таджик Банк укажите номер кошелька и введите
             сумму перевода. Без комиссии. Если вы отправили деньги не тому
             человеку, обратитесь к получателю перевода. Деньги может вернуть
             только получатель.
@@ -461,7 +461,7 @@ function PaymentPage({
       <div className="p-4 bg-white/50 border-t border-gray-100 mt-auto">
         <button
           onClick={() => setShowConfirm(true)}
-          className="w-full bg-[#ff782d] text-white py-4 rounded-2xl text-xl font-bold transition-transform active:scale-[0.98]"
+          className="w-full bg-[#ff782d] text-white py-4 rounded-2xl text-xl font-bold transition-transform active:scale-[0.98] border-[0.5px] border-black"
         >
           Далее
         </button>
@@ -503,7 +503,7 @@ function PaymentPage({
                     Поставщик:
                   </span>
                   <span className="text-xs text-gray-800 font-bold text-right ml-4">
-                    DC (по номеру телефона)
+                    Tajik Bank (по номеру телефона)
                   </span>
                 </div>
                 <div className="flex justify-between items-center border-b border-gray-50 pb-1.5">
@@ -549,7 +549,7 @@ function PaymentPage({
               </div>
 
               <button
-                className="w-full bg-[#ff782d] text-white py-3.5 rounded-2xl text-lg font-bold mt-2 active:scale-[0.98] transition-transform"
+                className="w-full bg-[#ff782d] text-white py-3.5 rounded-2xl text-lg font-bold mt-2 active:scale-[0.98] transition-transform border-[0.5px] border-black"
                 onClick={() => {
                   const now = new Date();
                   const dateStr = now
@@ -626,7 +626,7 @@ function PaymentPage({
                 <div className="flex items-start">
                   <span className="w-1/2 text-gray-500 font-medium">Поставщик:</span>
                   <span className="w-1/2 text-gray-700 font-bold break-words">
-                    DC (по номеру телефона)
+                    Tajik Bank (по номеру телефона)
                   </span>
                 </div>
                 <div className="flex items-center">
@@ -686,7 +686,7 @@ function Dashboard({
 
   return (
     <div
-      className="min-h-screen bg-[#f2f7fb] flex flex-col font-sans select-none overflow-x-hidden pb-40"
+      className="min-h-screen bg-white flex flex-col font-sans select-none overflow-x-hidden pb-40"
       id="dashboard"
     >
       {/* Header */}
@@ -698,17 +698,17 @@ function Dashboard({
           className="p-1 cursor-pointer" 
           onClick={onMenuClick}
         >
-          <Menu className="w-[21px] h-[21px] text-[#0081ff]" strokeWidth={2.5} />
+          <Menu className="w-[21px] h-[21px] text-[#5acb9a]" strokeWidth={2.5} />
         </button>
         <div className="flex items-center" id="dash-logo">
           <LogoComponent className="w-[81px] h-[32px]" />
         </div>
         <div className="flex items-center gap-3" id="dash-actions">
           <div className="p-1 cursor-pointer">
-            <MessageSquare className="w-[18px] h-[18px] text-[#0081ff]" strokeWidth={1.5} />
+            <MessageSquare className="w-[18px] h-[18px] text-[#5acb9a]" strokeWidth={1.5} />
           </div>
           <div className="p-1 cursor-pointer">
-            <Bell className="w-[18px] h-[18px] text-[#0081ff]" strokeWidth={1.5} />
+            <Bell className="w-[18px] h-[18px] text-[#5acb9a]" strokeWidth={1.5} />
           </div>
         </div>
       </header>
@@ -717,7 +717,7 @@ function Dashboard({
       <div className="mt-1">
         {/* Search Bar */}
         <div className="px-5 mb-3.5" id="search-container">
-          <div className="bg-white rounded-xl flex items-center px-4 py-[7.4px] border border-gray-100">
+          <div className="bg-white rounded-xl flex items-center px-4 py-[7.4px] border-[0.5px] border-black">
             <Search className="w-5 h-5 text-gray-400 mr-2" strokeWidth={2.5} />
             <input
               type="text"
@@ -730,7 +730,7 @@ function Dashboard({
         {/* Balance & Grid Card Row */}
         <div className="px-5 flex gap-2 mb-3.5" id="balance-section">
           {/* Balance Card */}
-          <div className="bg-[#0081ff] rounded-[20px] p-5 pb-4 flex-[6] text-white relative overflow-hidden">
+          <div className="bg-[#5acb9a] rounded-[20px] p-5 pb-4 flex-[6] text-white relative overflow-hidden border-[0.5px] border-black">
             <div className="relative z-10">
               <div className="flex items-center gap-2 mb-3">
                 <span className="text-[29px] font-black leading-none tracking-tight">
@@ -755,15 +755,15 @@ function Dashboard({
             </div>
           </div>
           {/* Small Grid Button */}
-          <div className="bg-white rounded-[20px] flex-[1] flex items-center justify-center border border-gray-100 cursor-pointer active:scale-95 transition-transform">
-            <Grid className="w-8 h-8 text-[#007bff]" strokeWidth={2} />
+          <div className="bg-white rounded-[20px] flex-[1] flex items-center justify-center border-[0.5px] border-black cursor-pointer active:scale-95 transition-transform">
+            <Grid className="w-8 h-8 text-[#5acb9a]" strokeWidth={2} />
           </div>
         </div>
 
         {/* Transfers Row */}
         <div className="px-5 mb-3.5 flex gap-2">
           <div 
-            className="bg-white rounded-lg p-1.5 w-[68px] h-[68px] flex flex-col items-center justify-center border border-gray-50 cursor-pointer active:scale-95 transition-transform"
+            className="bg-white rounded-lg p-1.5 w-[68px] h-[68px] flex flex-col items-center justify-center border-[0.5px] border-black cursor-pointer active:scale-95 transition-transform"
             onClick={onPaymentClick}
           >
             <div className="w-6 h-6 rounded-full bg-blue-50 flex items-center justify-center mb-1">
@@ -772,12 +772,12 @@ function Dashboard({
               </div>
             </div>
             <span className="text-[7.5px] text-center font-bold text-gray-900 leading-[1.1]">
-              DC<br/>(по номеру телефона)
+              Tajik Bank<br/>(по номеру телефона)
             </span>
           </div>
 
           <div 
-            className="bg-white rounded-lg p-1.5 w-[68px] h-[68px] flex flex-col items-center justify-center border border-gray-50 cursor-pointer active:scale-95 transition-transform relative"
+            className="bg-white rounded-lg p-1.5 w-[68px] h-[68px] flex flex-col items-center justify-center border-[0.5px] border-black cursor-pointer active:scale-95 transition-transform relative"
           >
             <div className="absolute top-1 right-1 text-gray-300">
                <X className="w-2.5 h-2.5" />
@@ -788,7 +788,7 @@ function Dashboard({
               </div>
             </div>
             <span className="text-[7.5px] text-center font-bold text-gray-900 leading-[1.1]">
-              DC<br/>(по номеру карты)
+              Tajik Bank<br/>(по номеру карты)
             </span>
           </div>
         </div>
@@ -800,7 +800,7 @@ function Dashboard({
             id="banners"
           >
             {/* Purple Banner */}
-            <div className="flex-shrink-0 w-[210px] h-[95px] bg-gradient-to-br from-[#3b24ab] to-[#25157d] rounded-[16px] p-3 text-white relative overflow-hidden flex flex-col justify-start">
+            <div className="flex-shrink-0 w-[210px] h-[95px] bg-gradient-to-br from-[#3b24ab] to-[#25157d] rounded-[16px] p-3 text-white relative overflow-hidden flex flex-col justify-start border-[0.5px] border-black">
               <h3 className="text-[8.3px] font-black uppercase leading-tight mb-1.5 max-w-[110px] tracking-tight">
                 ПЕРЕВОДЫ БЕЗ КОМИССИИ ИЗ УРАЛСИБА
               </h3>
@@ -826,12 +826,12 @@ function Dashboard({
             </div>
 
             {/* Green Banner */}
-            <div className="flex-shrink-0 w-[210px] h-[95px] bg-gradient-to-br from-[#f0fff4] to-[#dcfce7] rounded-[16px] p-3 border border-green-100 relative overflow-hidden">
+            <div className="flex-shrink-0 w-[210px] h-[95px] bg-gradient-to-br from-[#f0fff4] to-[#dcfce7] rounded-[16px] p-3 border-[0.5px] border-black relative overflow-hidden">
               <h3 className="text-[10px] font-black text-[#1a1a1a] uppercase leading-tight mb-2 max-w-[140px] tracking-tight">
                 СОҲИБИ ХОНА БО ИПОТЕКА ШАВЕД
               </h3>
               <div className="bg-[#5acb9a] text-white px-3 py-1 rounded-full inline-block text-[8px] font-black tracking-tight">
-                ipoteka.dc.tj
+                ipoteka.tajikbank.tj
               </div>
               <div className="absolute right-[-10px] bottom-[-10px] w-20 h-full opacity-10">
                  <Home className="w-full h-full text-green-900" />
@@ -842,7 +842,7 @@ function Dashboard({
 
         {/* Categories Bar */}
         <div className="px-5 mb-3.5" id="categories-bar">
-          <div className="bg-white rounded-[16px] px-2 py-1.5 flex items-center justify-between border border-gray-50 h-[44px]">
+          <div className="bg-white rounded-[16px] px-2 py-1.5 flex items-center justify-between border-[0.5px] border-black h-[44px]">
             <div className="flex-1 flex items-center justify-center gap-1.5">
               <div className="w-7 h-7 bg-[#3eb000] rounded-full flex items-center justify-center text-white">
                 <Zap className="w-3.5 h-3.5 fill-current" />
@@ -873,7 +873,7 @@ function Dashboard({
         <div className="px-5 space-y-2.5 pb-44" id="services-grid">
           {/* Row 1 */}
           <div className="grid grid-cols-3 gap-2.5">
-            <div className="col-span-2 bg-white rounded-[16px] p-3.5 border border-gray-50 flex flex-col justify-between items-start relative h-[98px] cursor-pointer active:scale-95 transition-transform overflow-hidden">
+            <div className="col-span-2 bg-white rounded-[16px] p-3.5 border-[0.5px] border-black flex flex-col justify-between items-start relative h-[98px] cursor-pointer active:scale-95 transition-transform overflow-hidden">
                <h4 className="text-[17px] font-black text-gray-900 mb-0.5 leading-tight tracking-tight">
                   Оплата услуг
                 </h4>
@@ -887,7 +887,7 @@ function Dashboard({
                   </div>
                </div>
             </div>
-            <div className="bg-white rounded-[16px] p-3.5 border border-gray-50 flex flex-col justify-between items-start h-[98px] cursor-pointer active:scale-95 transition-transform">
+            <div className="bg-white rounded-[16px] p-3.5 border-[0.5px] border-black flex flex-col justify-between items-start h-[98px] cursor-pointer active:scale-95 transition-transform">
               <h4 className="text-[15px] font-black text-gray-900 leading-tight tracking-tight">
                 Карты
               </h4>
@@ -900,21 +900,21 @@ function Dashboard({
 
           {/* Row 2 */}
           <div className="grid grid-cols-3 gap-2.5">
-            <div className="bg-white rounded-[16px] p-4 border border-gray-50 flex flex-col items-start justify-between aspect-square cursor-pointer active:scale-95 transition-transform">
+            <div className="bg-white rounded-[16px] p-4 border-[0.5px] border-black flex flex-col items-start justify-between aspect-square cursor-pointer active:scale-95 transition-transform">
               <h4 className="text-[14px] font-black text-gray-900 leading-tight tracking-tight">Кредиты</h4>
               <div className="w-full h-10 mt-auto bg-[#ffeff4] rounded-lg flex items-center justify-center overflow-hidden">
                  <div className="w-8 h-8 bg-[#ff4d88] rounded-full blur-[6px] absolute opacity-20" />
                  <div className="w-5 h-5 bg-[#ff4d88] rounded-full relative z-10" />
               </div>
             </div>
-            <div className="bg-white rounded-[16px] p-4 border border-gray-50 flex flex-col items-start justify-between aspect-square cursor-pointer active:scale-95 transition-transform">
+            <div className="bg-white rounded-[16px] p-4 border-[0.5px] border-black flex flex-col items-start justify-between aspect-square cursor-pointer active:scale-95 transition-transform">
               <h4 className="text-[14px] font-black text-gray-900 leading-tight tracking-tight">Депозиты</h4>
               <div className="w-full h-10 mt-auto bg-blue-50 rounded-lg flex items-center justify-center relative">
                  <div className="w-8 h-8 bg-blue-500/10 rounded-full absolute" />
                  <Scan className="w-[22px] h-[22px] text-[#0081ff]" strokeWidth={2.5} />
               </div>
             </div>
-            <div className="bg-white rounded-[16px] p-4 border border-gray-50 flex flex-col items-start justify-between aspect-square cursor-pointer active:scale-95 transition-transform">
+            <div className="bg-white rounded-[16px] p-4 border-[0.5px] border-black flex flex-col items-start justify-between aspect-square cursor-pointer active:scale-95 transition-transform">
               <h4 className="text-[14px] font-black text-gray-900 leading-tight tracking-tight leading-tight">Курс валют</h4>
               <div className="w-full h-10 mt-auto bg-gray-50 rounded-lg flex items-center justify-center">
                  <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
@@ -1016,10 +1016,10 @@ function ScannerOverlay({ onClose }: { onClose: () => void }) {
            {/* DC Logo Placeholder */}
            <div className="flex items-center gap-1.5 shrink-0">
              <div className="w-8 h-5 bg-white rounded-sm flex items-center justify-center">
-                <span className="text-[10px] font-black text-[#1a5fb4]">DC</span>
+                <span className="text-[10px] font-black text-[#5acb9a]">TB</span>
              </div>
              <span className="text-white text-[7px] font-bold leading-tight opacity-90 tracking-tight whitespace-nowrap">
-               DC<br/>(по номеру Телефона) ё карта)
+               Tajik Bank<br/>(по номеру Телефона) ё карта)
              </span>
            </div>
            
@@ -1052,26 +1052,8 @@ function ScannerOverlay({ onClose }: { onClose: () => void }) {
   );
 }
 
-// --- SplashScreen Component ---
-function SplashScreen({ LogoComponent }: { LogoComponent: any }) {
-  return (
-    <motion.div
-      initial={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-      className="fixed inset-0 bg-white z-[200] flex items-center justify-center select-none"
-      id="splash-screen"
-    >
-      <div className="w-[105.6px] h-[70.4px] flex items-center justify-center">
-        <LogoComponent className="w-full h-full" />
-      </div>
-    </motion.div>
-  );
-}
-
 // --- PIN Entrance Component ---
 export default function App() {
-  const [showSplash, setShowSplash] = useState(true);
   const [showScanner, setShowScanner] = useState(false);
   const [pin, setPin] = useState<number[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -1126,13 +1108,6 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowSplash(false);
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, []);
-
   const addTransaction = (tx: any) => {
     setTransactions((prev) => [tx, ...prev]);
   };
@@ -1164,34 +1139,28 @@ export default function App() {
       );
     }
     return (
-      <svg viewBox="0 0 160 100" className={className}>
-        <path
-          d="M55 20 H30 C20 20 15 25 15 35 V75 C15 85 20 90 30 90 H55 Q80 90 80 55 Q80 20 55 20 Z M52 75 H35 V35 H52 Q63 35 63 55 Q63 75 52 75 Z"
-          fill="#1a5fb4"
-        />
-        <path
-          d="M95 20 Q70 20 70 55 Q70 90 95 90 H130 V75 H95 Q85 75 85 55 Q85 35 95 35 H130 V20 Z"
-          fill="#f07e26"
-        />
+      <svg viewBox="0 0 280 100" className={className}>
         <text
-          x="105"
+          x="10"
           y="65"
-          fontFamily="Arial"
+          fontFamily="Inter, sans-serif"
           fontWeight="900"
-          fontSize="22"
-          fill="#1a5fb4"
+          fontSize="42"
+          fill="#5acb9a"
+          style={{ letterSpacing: "-1px" }}
         >
-          CITY
+          TAJIK
         </text>
         <text
-          x="105"
-          y="85"
-          fontFamily="Arial"
-          fontWeight="900"
-          fontSize="22"
-          fill="#1a5fb4"
+          x="145"
+          y="65"
+          fontFamily="Inter, sans-serif"
+          fontWeight="400"
+          fontSize="42"
+          fill="#1a1a1a"
+          style={{ letterSpacing: "-1px" }}
         >
-          DUSHANBE
+          BANK
         </text>
       </svg>
     );
@@ -1218,10 +1187,6 @@ export default function App() {
   };
 
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-  if (showSplash) {
-    return <SplashScreen LogoComponent={LogoComponent} />;
-  }
 
   if (isLoggedIn) {
     if (selectedTransaction) {
@@ -1277,7 +1242,7 @@ export default function App() {
               />
               <label
                 htmlFor="logo-upload"
-                className="flex items-center gap-4 p-4 bg-blue-50 rounded-2xl cursor-pointer active:scale-95 transition-transform"
+                className="flex items-center gap-4 p-4 bg-blue-50 rounded-2xl cursor-pointer active:scale-95 transition-transform border-[0.5px] border-black"
               >
                 <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-blue-600 font-bold text-2xl">
                   +
@@ -1291,14 +1256,14 @@ export default function App() {
               <h3 className="text-gray-400 font-bold text-xs uppercase px-2 mb-2">Обновить категории</h3>
               
               <div 
-                className="flex items-center justify-between p-4 bg-blue-50 rounded-2xl cursor-pointer active:scale-95 transition-transform"
+                className="flex items-center justify-between p-4 bg-blue-50 rounded-2xl cursor-pointer active:scale-95 transition-transform border-[0.5px] border-black"
                 onClick={cycleCategories}
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white">
+                  <div className="w-10 h-10 bg-[#5acb9a] rounded-full flex items-center justify-center text-white">
                     <Car className="w-6 h-6" />
                   </div>
-                  <span className="font-bold text-blue-700">Parking</span>
+                  <span className="font-bold text-emerald-700">Parking</span>
                 </div>
                 <div className="flex flex-col gap-0.5">
                   <Plus className="w-4 h-4 text-blue-600" />
@@ -1349,11 +1314,11 @@ export default function App() {
                 onClick={() => setActiveTab("home")}
               >
                 <Home
-                  className={`w-6 h-6 ${activeTab === "home" ? "text-[#0081ff]" : "text-gray-300"}`}
+                  className={`w-6 h-6 ${activeTab === "home" ? "text-[#5acb9a]" : "text-gray-300"}`}
                   strokeWidth={2}
                 />
                 <span
-                  className={`text-[9.5px] font-bold ${activeTab === "home" ? "text-blue-500" : "text-gray-400"}`}
+                  className={`text-[9.5px] font-bold ${activeTab === "home" ? "text-emerald-500" : "text-gray-400"}`}
                 >
                   Главная
                 </span>
@@ -1370,7 +1335,7 @@ export default function App() {
               {/* Large Floating Center Button */}
               <div className="relative -mt-6 flex flex-col items-center">
                 <div 
-                  className="bg-[#0081ff] w-[54px] h-[54px] rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(0,129,255,0.4)] active:scale-90 transition-transform relative z-10 cursor-pointer"
+                  className="bg-[#0081ff] w-[54px] h-[54px] rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(0,129,255,0.4)] active:scale-90 transition-transform relative z-10 cursor-pointer border-[0.5px] border-black"
                   onClick={() => setShowScanner(true)}
                 >
                   <Scan className="w-7 h-7 text-white" strokeWidth={2.5} />
@@ -1391,11 +1356,11 @@ export default function App() {
                 onClick={() => setActiveTab("history")}
               >
                 <Clock
-                  className={`w-6 h-6 ${activeTab === "history" ? "text-[#0081ff]" : "text-gray-300"}`}
+                  className={`w-6 h-6 ${activeTab === "history" ? "text-[#5acb9a]" : "text-gray-300"}`}
                   strokeWidth={2}
                 />
                 <span
-                  className={`text-[10px] font-bold ${activeTab === "history" ? "text-blue-500" : "text-gray-400"}`}
+                  className={`text-[10px] font-bold ${activeTab === "history" ? "text-emerald-500" : "text-gray-400"}`}
                 >
                   История
                 </span>
@@ -1409,7 +1374,7 @@ export default function App() {
 
   return (
     <div
-      className="min-h-screen bg-[#f2f7fb] flex flex-col items-center justify-center select-none overflow-hidden font-sans"
+      className="min-h-screen bg-white flex flex-col items-center justify-center select-none overflow-hidden font-sans"
       id="pin-screen"
     >
       <motion.div
@@ -1511,9 +1476,6 @@ export default function App() {
 
       <div className="h-2" />
       </motion.div>
-      {/* Simulation of black mobile navigation bar */}
-      <div className="h-[env(safe-area-inset-bottom,40px)] bg-black w-full fixed bottom-0 left-0 right-0 z-[9999]" />
-      <div className="h-[env(safe-area-inset-bottom,40px)] w-full" />
     </div>
   );
 }
